@@ -478,7 +478,13 @@ def _uniffi_check_contract_api_version(lib):
         raise InternalError("UniFFI contract version mismatch: try cleaning and rebuilding your project")
 
 def _uniffi_check_api_checksums(lib):
+    if lib.uniffi_mdk_uniffi_checksum_func_decrypt_group_image() != 61134:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_func_derive_upload_keypair() != 59212:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_func_new_mdk() != 17648:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_func_prepare_group_image_for_upload() != 65092:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome() != 44970:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -506,6 +512,8 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_relays() != 55523:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome() != 25012:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_leave_group() != 20702:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_merge_pending_commit() != 22201:
@@ -519,6 +527,8 @@ def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_remove_members() != 46971:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_self_update() != 2372:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_sync_group_metadata_from_mls() != 16922:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_update_group_data() != 28107:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -795,11 +805,29 @@ _UniffiLib.uniffi_mdk_uniffi_fn_free_mdk.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_free_mdk.restype = None
+_UniffiLib.uniffi_mdk_uniffi_fn_func_decrypt_group_image.argtypes = (
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_func_decrypt_group_image.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_func_derive_upload_keypair.argtypes = (
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_func_derive_upload_keypair.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk.argtypes = (
     _UniffiRustBuffer,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk.restype = ctypes.c_uint64
+_UniffiLib.uniffi_mdk_uniffi_fn_func_prepare_group_image_for_upload.argtypes = (
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_func_prepare_group_image_for_upload.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_accept_welcome.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -886,6 +914,12 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_relays.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_relays.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_welcome.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_welcome.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_leave_group.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -930,6 +964,12 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_self_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_self_update.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_sync_group_metadata_from_mls.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_sync_group_metadata_from_mls.restype = None
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_update_group_data.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -940,9 +980,18 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_update_group_data.restype = _UniffiRu
 _UniffiLib.ffi_mdk_uniffi_uniffi_contract_version.argtypes = (
 )
 _UniffiLib.ffi_mdk_uniffi_uniffi_contract_version.restype = ctypes.c_uint32
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_decrypt_group_image.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_decrypt_group_image.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_derive_upload_keypair.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_derive_upload_keypair.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_func_new_mdk.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_func_new_mdk.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_prepare_group_image_for_upload.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_prepare_group_image_for_upload.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome.restype = ctypes.c_uint16
@@ -982,6 +1031,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes.restype = 
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_relays.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_relays.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_leave_group.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_leave_group.restype = ctypes.c_uint16
@@ -1003,6 +1055,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_remove_members.restype = ctypes
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_self_update.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_self_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_sync_group_metadata_from_mls.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_sync_group_metadata_from_mls.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_update_group_data.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_update_group_data.restype = ctypes.c_uint16
@@ -1480,6 +1535,170 @@ class _UniffiFfiConverterTypeGroupDataUpdate(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalSequenceString.write(value.relays, buf)
         _UniffiFfiConverterOptionalSequenceString.write(value.admins, buf)
 
+class _UniffiFfiConverterUInt32(_UniffiConverterPrimitiveInt):
+    CLASS_NAME = "u32"
+    VALUE_MIN = 0
+    VALUE_MAX = 2**32
+
+    @staticmethod
+    def read(buf):
+        return buf.read_u32()
+
+    @staticmethod
+    def write(value, buf):
+        buf.write_u32(value)
+
+@dataclass
+class ImageDimensions:
+    """
+    Image dimensions
+"""
+    def __init__(self, *, width:int, height:int):
+        self.width = width
+        self.height = height
+        
+        
+
+    
+    def __str__(self):
+        return "ImageDimensions(width={}, height={})".format(self.width, self.height)
+    def __eq__(self, other):
+        if self.width != other.width:
+            return False
+        if self.height != other.height:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeImageDimensions(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return ImageDimensions(
+            width=_UniffiFfiConverterUInt32.read(buf),
+            height=_UniffiFfiConverterUInt32.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterUInt32.check_lower(value.width)
+        _UniffiFfiConverterUInt32.check_lower(value.height)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterUInt32.write(value.width, buf)
+        _UniffiFfiConverterUInt32.write(value.height, buf)
+
+class _UniffiFfiConverterOptionalTypeImageDimensions(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeImageDimensions.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeImageDimensions.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeImageDimensions.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+@dataclass
+class GroupImageUpload:
+    """
+    Prepared group image data ready for upload to Blossom
+"""
+    def __init__(self, *, encrypted_data:bytes, encrypted_hash:bytes, image_key:bytes, image_nonce:bytes, upload_secret_key:str, original_size:int, encrypted_size:int, mime_type:str, dimensions:typing.Optional[ImageDimensions], blurhash:typing.Optional[str]):
+        self.encrypted_data = encrypted_data
+        self.encrypted_hash = encrypted_hash
+        self.image_key = image_key
+        self.image_nonce = image_nonce
+        self.upload_secret_key = upload_secret_key
+        self.original_size = original_size
+        self.encrypted_size = encrypted_size
+        self.mime_type = mime_type
+        self.dimensions = dimensions
+        self.blurhash = blurhash
+        
+        
+
+    
+    def __str__(self):
+        return "GroupImageUpload(encrypted_data={}, encrypted_hash={}, image_key={}, image_nonce={}, upload_secret_key={}, original_size={}, encrypted_size={}, mime_type={}, dimensions={}, blurhash={})".format(self.encrypted_data, self.encrypted_hash, self.image_key, self.image_nonce, self.upload_secret_key, self.original_size, self.encrypted_size, self.mime_type, self.dimensions, self.blurhash)
+    def __eq__(self, other):
+        if self.encrypted_data != other.encrypted_data:
+            return False
+        if self.encrypted_hash != other.encrypted_hash:
+            return False
+        if self.image_key != other.image_key:
+            return False
+        if self.image_nonce != other.image_nonce:
+            return False
+        if self.upload_secret_key != other.upload_secret_key:
+            return False
+        if self.original_size != other.original_size:
+            return False
+        if self.encrypted_size != other.encrypted_size:
+            return False
+        if self.mime_type != other.mime_type:
+            return False
+        if self.dimensions != other.dimensions:
+            return False
+        if self.blurhash != other.blurhash:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeGroupImageUpload(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return GroupImageUpload(
+            encrypted_data=_UniffiFfiConverterBytes.read(buf),
+            encrypted_hash=_UniffiFfiConverterBytes.read(buf),
+            image_key=_UniffiFfiConverterBytes.read(buf),
+            image_nonce=_UniffiFfiConverterBytes.read(buf),
+            upload_secret_key=_UniffiFfiConverterString.read(buf),
+            original_size=_UniffiFfiConverterUInt64.read(buf),
+            encrypted_size=_UniffiFfiConverterUInt64.read(buf),
+            mime_type=_UniffiFfiConverterString.read(buf),
+            dimensions=_UniffiFfiConverterOptionalTypeImageDimensions.read(buf),
+            blurhash=_UniffiFfiConverterOptionalString.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterBytes.check_lower(value.encrypted_data)
+        _UniffiFfiConverterBytes.check_lower(value.encrypted_hash)
+        _UniffiFfiConverterBytes.check_lower(value.image_key)
+        _UniffiFfiConverterBytes.check_lower(value.image_nonce)
+        _UniffiFfiConverterString.check_lower(value.upload_secret_key)
+        _UniffiFfiConverterUInt64.check_lower(value.original_size)
+        _UniffiFfiConverterUInt64.check_lower(value.encrypted_size)
+        _UniffiFfiConverterString.check_lower(value.mime_type)
+        _UniffiFfiConverterOptionalTypeImageDimensions.check_lower(value.dimensions)
+        _UniffiFfiConverterOptionalString.check_lower(value.blurhash)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterBytes.write(value.encrypted_data, buf)
+        _UniffiFfiConverterBytes.write(value.encrypted_hash, buf)
+        _UniffiFfiConverterBytes.write(value.image_key, buf)
+        _UniffiFfiConverterBytes.write(value.image_nonce, buf)
+        _UniffiFfiConverterString.write(value.upload_secret_key, buf)
+        _UniffiFfiConverterUInt64.write(value.original_size, buf)
+        _UniffiFfiConverterUInt64.write(value.encrypted_size, buf)
+        _UniffiFfiConverterString.write(value.mime_type, buf)
+        _UniffiFfiConverterOptionalTypeImageDimensions.write(value.dimensions, buf)
+        _UniffiFfiConverterOptionalString.write(value.blurhash, buf)
+
 class _UniffiFfiConverterSequenceSequenceString(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -1542,25 +1761,40 @@ class _UniffiFfiConverterTypeKeyPackageResult(_UniffiConverterRustBuffer):
         _UniffiFfiConverterString.write(value.key_package, buf)
         _UniffiFfiConverterSequenceSequenceString.write(value.tags, buf)
 
+class _UniffiFfiConverterUInt16(_UniffiConverterPrimitiveInt):
+    CLASS_NAME = "u16"
+    VALUE_MIN = 0
+    VALUE_MAX = 2**16
+
+    @staticmethod
+    def read(buf):
+        return buf.read_u16()
+
+    @staticmethod
+    def write(value, buf):
+        buf.write_u16(value)
+
 @dataclass
 class Message:
     """
     Message representation
 """
-    def __init__(self, *, id:str, mls_group_id:str, nostr_group_id:str, event_id:str, event_json:str, processed_at:int, state:str):
+    def __init__(self, *, id:str, mls_group_id:str, nostr_group_id:str, event_id:str, sender_pubkey:str, event_json:str, processed_at:int, kind:int, state:str):
         self.id = id
         self.mls_group_id = mls_group_id
         self.nostr_group_id = nostr_group_id
         self.event_id = event_id
+        self.sender_pubkey = sender_pubkey
         self.event_json = event_json
         self.processed_at = processed_at
+        self.kind = kind
         self.state = state
         
         
 
     
     def __str__(self):
-        return "Message(id={}, mls_group_id={}, nostr_group_id={}, event_id={}, event_json={}, processed_at={}, state={})".format(self.id, self.mls_group_id, self.nostr_group_id, self.event_id, self.event_json, self.processed_at, self.state)
+        return "Message(id={}, mls_group_id={}, nostr_group_id={}, event_id={}, sender_pubkey={}, event_json={}, processed_at={}, kind={}, state={})".format(self.id, self.mls_group_id, self.nostr_group_id, self.event_id, self.sender_pubkey, self.event_json, self.processed_at, self.kind, self.state)
     def __eq__(self, other):
         if self.id != other.id:
             return False
@@ -1570,9 +1804,13 @@ class Message:
             return False
         if self.event_id != other.event_id:
             return False
+        if self.sender_pubkey != other.sender_pubkey:
+            return False
         if self.event_json != other.event_json:
             return False
         if self.processed_at != other.processed_at:
+            return False
+        if self.kind != other.kind:
             return False
         if self.state != other.state:
             return False
@@ -1586,8 +1824,10 @@ class _UniffiFfiConverterTypeMessage(_UniffiConverterRustBuffer):
             mls_group_id=_UniffiFfiConverterString.read(buf),
             nostr_group_id=_UniffiFfiConverterString.read(buf),
             event_id=_UniffiFfiConverterString.read(buf),
+            sender_pubkey=_UniffiFfiConverterString.read(buf),
             event_json=_UniffiFfiConverterString.read(buf),
             processed_at=_UniffiFfiConverterUInt64.read(buf),
+            kind=_UniffiFfiConverterUInt16.read(buf),
             state=_UniffiFfiConverterString.read(buf),
         )
 
@@ -1597,8 +1837,10 @@ class _UniffiFfiConverterTypeMessage(_UniffiConverterRustBuffer):
         _UniffiFfiConverterString.check_lower(value.mls_group_id)
         _UniffiFfiConverterString.check_lower(value.nostr_group_id)
         _UniffiFfiConverterString.check_lower(value.event_id)
+        _UniffiFfiConverterString.check_lower(value.sender_pubkey)
         _UniffiFfiConverterString.check_lower(value.event_json)
         _UniffiFfiConverterUInt64.check_lower(value.processed_at)
+        _UniffiFfiConverterUInt16.check_lower(value.kind)
         _UniffiFfiConverterString.check_lower(value.state)
 
     @staticmethod
@@ -1607,22 +1849,11 @@ class _UniffiFfiConverterTypeMessage(_UniffiConverterRustBuffer):
         _UniffiFfiConverterString.write(value.mls_group_id, buf)
         _UniffiFfiConverterString.write(value.nostr_group_id, buf)
         _UniffiFfiConverterString.write(value.event_id, buf)
+        _UniffiFfiConverterString.write(value.sender_pubkey, buf)
         _UniffiFfiConverterString.write(value.event_json, buf)
         _UniffiFfiConverterUInt64.write(value.processed_at, buf)
+        _UniffiFfiConverterUInt16.write(value.kind, buf)
         _UniffiFfiConverterString.write(value.state, buf)
-
-class _UniffiFfiConverterUInt32(_UniffiConverterPrimitiveInt):
-    CLASS_NAME = "u32"
-    VALUE_MIN = 0
-    VALUE_MAX = 2**32
-
-    @staticmethod
-    def read(buf):
-        return buf.read_u32()
-
-    @staticmethod
-    def write(value, buf):
-        buf.write_u32(value)
 
 @dataclass
 class Welcome:
@@ -2122,19 +2353,6 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
 
 
 
-class _UniffiFfiConverterUInt16(_UniffiConverterPrimitiveInt):
-    CLASS_NAME = "u16"
-    VALUE_MIN = 0
-    VALUE_MAX = 2**16
-
-    @staticmethod
-    def read(buf):
-        return buf.read_u16()
-
-    @staticmethod
-    def write(value, buf):
-        buf.write_u16(value)
-
 class _UniffiFfiConverterOptionalTypeGroup(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -2254,6 +2472,31 @@ class _UniffiFfiConverterSequenceTypeWelcome(_UniffiConverterRustBuffer):
             _UniffiFfiConverterTypeWelcome.read(buf) for i in range(count)
         ]
 
+class _UniffiFfiConverterOptionalTypeWelcome(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeWelcome.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeWelcome.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeWelcome.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
 
 class MdkProtocol(typing.Protocol):
     """
@@ -2325,6 +2568,11 @@ class MdkProtocol(typing.Protocol):
         Get relays for a group
 """
         raise NotImplementedError
+    def get_welcome(self, event_id: str) -> typing.Optional[Welcome]:
+        """
+        Get a welcome by event ID
+"""
+        raise NotImplementedError
     def leave_group(self, mls_group_id: str) -> AddMembersResult:
         """
         Create a proposal to leave the group
@@ -2358,6 +2606,11 @@ class MdkProtocol(typing.Protocol):
     def self_update(self, mls_group_id: str) -> AddMembersResult:
         """
         Update the current member's leaf node in an MLS group
+"""
+        raise NotImplementedError
+    def sync_group_metadata_from_mls(self, mls_group_id: str) -> None:
+        """
+        Sync group metadata from MLS
 """
         raise NotImplementedError
     def update_group_data(self, mls_group_id: str,update: GroupDataUpdate) -> AddMembersResult:
@@ -2651,6 +2904,24 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def get_welcome(self, event_id: str) -> typing.Optional[Welcome]:
+        """
+        Get a welcome by event ID
+"""
+        
+        _UniffiFfiConverterString.check_lower(event_id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(event_id),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterOptionalTypeWelcome.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_welcome,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
     def leave_group(self, mls_group_id: str) -> AddMembersResult:
         """
         Create a proposal to leave the group
@@ -2783,6 +3054,24 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def sync_group_metadata_from_mls(self, mls_group_id: str) -> None:
+        """
+        Sync group metadata from MLS
+"""
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_sync_group_metadata_from_mls,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
     def update_group_data(self, mls_group_id: str,update: GroupDataUpdate) -> AddMembersResult:
         """
         Update group data (name, description, image, relays, admins)
@@ -2846,6 +3135,46 @@ class _UniffiFfiConverterUInt8(_UniffiConverterPrimitiveInt):
     @staticmethod
     def write(value, buf):
         buf.write_u8(value)
+def decrypt_group_image(encrypted_data: bytes,image_key: bytes,image_nonce: bytes) -> bytes:
+    """
+    Decrypt group image
+"""
+    
+    _UniffiFfiConverterBytes.check_lower(encrypted_data)
+    
+    _UniffiFfiConverterBytes.check_lower(image_key)
+    
+    _UniffiFfiConverterBytes.check_lower(image_nonce)
+    _uniffi_lowered_args = (
+        _UniffiFfiConverterBytes.lower(encrypted_data),
+        _UniffiFfiConverterBytes.lower(image_key),
+        _UniffiFfiConverterBytes.lower(image_nonce),
+    )
+    _uniffi_lift_return = _UniffiFfiConverterBytes.lift
+    _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+    _uniffi_ffi_result = _uniffi_rust_call_with_error(
+        _uniffi_error_converter,
+        _UniffiLib.uniffi_mdk_uniffi_fn_func_decrypt_group_image,
+        *_uniffi_lowered_args,
+    )
+    return _uniffi_lift_return(_uniffi_ffi_result)
+def derive_upload_keypair(image_key: bytes) -> str:
+    """
+    Derive upload keypair for group image
+"""
+    
+    _UniffiFfiConverterBytes.check_lower(image_key)
+    _uniffi_lowered_args = (
+        _UniffiFfiConverterBytes.lower(image_key),
+    )
+    _uniffi_lift_return = _UniffiFfiConverterString.lift
+    _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+    _uniffi_ffi_result = _uniffi_rust_call_with_error(
+        _uniffi_error_converter,
+        _UniffiLib.uniffi_mdk_uniffi_fn_func_derive_upload_keypair,
+        *_uniffi_lowered_args,
+    )
+    return _uniffi_lift_return(_uniffi_ffi_result)
 def new_mdk(db_path: str) -> Mdk:
     """
     Create a new MDK instance with SQLite storage
@@ -2863,6 +3192,26 @@ def new_mdk(db_path: str) -> Mdk:
         *_uniffi_lowered_args,
     )
     return _uniffi_lift_return(_uniffi_ffi_result)
+def prepare_group_image_for_upload(image_data: bytes,mime_type: str) -> GroupImageUpload:
+    """
+    Prepare group image for upload
+"""
+    
+    _UniffiFfiConverterBytes.check_lower(image_data)
+    
+    _UniffiFfiConverterString.check_lower(mime_type)
+    _uniffi_lowered_args = (
+        _UniffiFfiConverterBytes.lower(image_data),
+        _UniffiFfiConverterString.lower(mime_type),
+    )
+    _uniffi_lift_return = _UniffiFfiConverterTypeGroupImageUpload.lift
+    _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+    _uniffi_ffi_result = _uniffi_rust_call_with_error(
+        _uniffi_error_converter,
+        _UniffiLib.uniffi_mdk_uniffi_fn_func_prepare_group_image_for_upload,
+        *_uniffi_lowered_args,
+    )
+    return _uniffi_lift_return(_uniffi_ffi_result)
 
 __all__ = [
     "InternalError",
@@ -2872,10 +3221,15 @@ __all__ = [
     "Group",
     "CreateGroupResult",
     "GroupDataUpdate",
+    "ImageDimensions",
+    "GroupImageUpload",
     "KeyPackageResult",
     "Message",
     "Welcome",
+    "decrypt_group_image",
+    "derive_upload_keypair",
     "new_mdk",
+    "prepare_group_image_for_upload",
     "Mdk",
     "MdkProtocol",
 ]

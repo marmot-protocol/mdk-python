@@ -1,7 +1,7 @@
 > [!NOTE]  
 > This is a generic documentation, to read Python specific docs [click here](docs.md).
 
-# MDK Bindings
+# MDK Bindings for Python
 
 Language bindings for the *Marmot Development Kit* - bringing decentralized, encrypted group messaging to your favorite language. 
 
