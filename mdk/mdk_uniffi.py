@@ -480,7 +480,7 @@ def _uniffi_check_contract_api_version(lib):
 def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mdk_uniffi_checksum_func_decrypt_group_image() != 61134:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_func_derive_upload_keypair() != 59212:
+    if lib.uniffi_mdk_uniffi_checksum_func_derive_upload_keypair() != 45595:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_func_new_mdk() != 17648:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -814,6 +814,7 @@ _UniffiLib.uniffi_mdk_uniffi_fn_func_decrypt_group_image.argtypes = (
 _UniffiLib.uniffi_mdk_uniffi_fn_func_decrypt_group_image.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_func_derive_upload_keypair.argtypes = (
     _UniffiRustBuffer,
+    ctypes.c_uint16,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_func_derive_upload_keypair.restype = _UniffiRustBuffer
@@ -3187,14 +3188,17 @@ def decrypt_group_image(encrypted_data: bytes,image_key: bytes,image_nonce: byte
         *_uniffi_lowered_args,
     )
     return _uniffi_lift_return(_uniffi_ffi_result)
-def derive_upload_keypair(image_key: bytes) -> str:
+def derive_upload_keypair(image_key: bytes,version: int) -> str:
     """
     Derive upload keypair for group image
 """
     
     _UniffiFfiConverterBytes.check_lower(image_key)
+    
+    _UniffiFfiConverterUInt16.check_lower(version)
     _uniffi_lowered_args = (
         _UniffiFfiConverterBytes.lower(image_key),
+        _UniffiFfiConverterUInt16.lower(version),
     )
     _uniffi_lift_return = _UniffiFfiConverterString.lift
     _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
