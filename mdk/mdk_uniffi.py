@@ -486,7 +486,9 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_func_prepare_group_image_for_upload() != 65092:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome() != 44970:
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome() != 3695:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome_json() != 39652:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_add_members() != 19089:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -496,7 +498,9 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_message() != 58601:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome() != 58096:
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome() != 57917:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome_json() != 21478:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_group() != 1495:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -835,6 +839,12 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_accept_welcome.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_accept_welcome.restype = None
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_accept_welcome_json.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_accept_welcome_json.restype = None
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_add_members.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -876,6 +886,12 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome.restype = None
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome_json.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome_json.restype = None
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_group.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -997,6 +1013,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_func_prepare_group_image_for_upload.restyp
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome_json.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome_json.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_add_members.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_add_members.restype = ctypes.c_uint16
@@ -1012,6 +1031,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_message.restype = ctypes
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome_json.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome_json.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_group.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_group.restype = ctypes.c_uint16
@@ -2530,9 +2552,14 @@ class MdkProtocol(typing.Protocol):
     Main MDK instance with SQLite storage
 """
     
-    def accept_welcome(self, welcome_json: str) -> None:
+    def accept_welcome(self, welcome: Welcome) -> None:
         """
         Accept a welcome message
+"""
+        raise NotImplementedError
+    def accept_welcome_json(self, welcome_json: str) -> None:
+        """
+        Accept a welcome message from JSON
 """
         raise NotImplementedError
     def add_members(self, mls_group_id: str,key_package_events_json: typing.List[str]) -> UpdateGroupResult:
@@ -2555,9 +2582,14 @@ class MdkProtocol(typing.Protocol):
         Create a message in a group
 """
         raise NotImplementedError
-    def decline_welcome(self, welcome_json: str) -> None:
+    def decline_welcome(self, welcome: Welcome) -> None:
         """
         Decline a welcome message
+"""
+        raise NotImplementedError
+    def decline_welcome_json(self, welcome_json: str) -> None:
+        """
+        Decline a welcome message from JSON
 """
         raise NotImplementedError
     def get_group(self, mls_group_id: str) -> typing.Optional[Group]:
@@ -2673,9 +2705,27 @@ class Mdk(MdkProtocol):
         inst = cls.__new__(cls)
         inst._handle = handle
         return inst
-    def accept_welcome(self, welcome_json: str) -> None:
+    def accept_welcome(self, welcome: Welcome) -> None:
         """
         Accept a welcome message
+"""
+        
+        _UniffiFfiConverterTypeWelcome.check_lower(welcome)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterTypeWelcome.lower(welcome),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_accept_welcome,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def accept_welcome_json(self, welcome_json: str) -> None:
+        """
+        Accept a welcome message from JSON
 """
         
         _UniffiFfiConverterString.check_lower(welcome_json)
@@ -2687,7 +2737,7 @@ class Mdk(MdkProtocol):
         _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
-            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_accept_welcome,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_accept_welcome_json,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
@@ -2796,9 +2846,27 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
-    def decline_welcome(self, welcome_json: str) -> None:
+    def decline_welcome(self, welcome: Welcome) -> None:
         """
         Decline a welcome message
+"""
+        
+        _UniffiFfiConverterTypeWelcome.check_lower(welcome)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterTypeWelcome.lower(welcome),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def decline_welcome_json(self, welcome_json: str) -> None:
+        """
+        Decline a welcome message from JSON
 """
         
         _UniffiFfiConverterString.check_lower(welcome_json)
@@ -2810,7 +2878,7 @@ class Mdk(MdkProtocol):
         _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
-            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome_json,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
