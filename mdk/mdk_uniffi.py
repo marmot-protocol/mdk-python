@@ -478,7 +478,7 @@ def _uniffi_check_contract_api_version(lib):
         raise InternalError("UniFFI contract version mismatch: try cleaning and rebuilding your project")
 
 def _uniffi_check_api_checksums(lib):
-    if lib.uniffi_mdk_uniffi_checksum_func_decrypt_group_image() != 61134:
+    if lib.uniffi_mdk_uniffi_checksum_func_decrypt_group_image() != 29409:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_func_derive_upload_keypair() != 45595:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -810,6 +810,7 @@ _UniffiLib.uniffi_mdk_uniffi_fn_free_mdk.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_free_mdk.restype = None
 _UniffiLib.uniffi_mdk_uniffi_fn_func_decrypt_group_image.argtypes = (
+    _UniffiRustBuffer,
     _UniffiRustBuffer,
     _UniffiRustBuffer,
     _UniffiRustBuffer,
@@ -3233,18 +3234,21 @@ class _UniffiFfiConverterUInt8(_UniffiConverterPrimitiveInt):
     @staticmethod
     def write(value, buf):
         buf.write_u8(value)
-def decrypt_group_image(encrypted_data: bytes,image_key: bytes,image_nonce: bytes) -> bytes:
+def decrypt_group_image(encrypted_data: bytes,expected_hash: typing.Optional[bytes],image_key: bytes,image_nonce: bytes) -> bytes:
     """
     Decrypt group image
 """
     
     _UniffiFfiConverterBytes.check_lower(encrypted_data)
     
+    _UniffiFfiConverterOptionalBytes.check_lower(expected_hash)
+    
     _UniffiFfiConverterBytes.check_lower(image_key)
     
     _UniffiFfiConverterBytes.check_lower(image_nonce)
     _uniffi_lowered_args = (
         _UniffiFfiConverterBytes.lower(encrypted_data),
+        _UniffiFfiConverterOptionalBytes.lower(expected_hash),
         _UniffiFfiConverterBytes.lower(image_key),
         _UniffiFfiConverterBytes.lower(image_nonce),
     )
