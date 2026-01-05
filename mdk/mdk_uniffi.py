@@ -514,6 +514,8 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes() != 45023:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes_paginated() != 62033:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_relays() != 55523:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome() != 25012:
@@ -927,6 +929,13 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_pending_welcomes.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_pending_welcomes.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_pending_welcomes_paginated.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_pending_welcomes_paginated.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_relays.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1053,6 +1062,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_messages.restype = ctypes.c
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes_paginated.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes_paginated.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_relays.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_relays.restype = ctypes.c_uint16
@@ -2522,6 +2534,31 @@ class _UniffiFfiConverterSequenceTypeWelcome(_UniffiConverterRustBuffer):
             _UniffiFfiConverterTypeWelcome.read(buf) for i in range(count)
         ]
 
+class _UniffiFfiConverterOptionalUInt32(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterUInt32.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterUInt32.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterUInt32.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
 class _UniffiFfiConverterOptionalTypeWelcome(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -2621,6 +2658,20 @@ class MdkProtocol(typing.Protocol):
     def get_pending_welcomes(self, ) -> typing.List[Welcome]:
         """
         Get pending welcomes
+"""
+        raise NotImplementedError
+    def get_pending_welcomes_paginated(self, limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Welcome]:
+        """
+        Get pending welcomes with pagination
+
+        # Arguments
+
+        * `limit` - Optional maximum number of welcomes to return (defaults to 1000)
+        * `offset` - Optional number of welcomes to skip (defaults to 0)
+
+        # Returns
+
+        Returns a vector of pending welcomes ordered by ID (descending)
 """
         raise NotImplementedError
     def get_relays(self, mls_group_id: str) -> typing.List[str]:
@@ -2982,6 +3033,36 @@ class Mdk(MdkProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_pending_welcomes,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def get_pending_welcomes_paginated(self, limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Welcome]:
+        """
+        Get pending welcomes with pagination
+
+        # Arguments
+
+        * `limit` - Optional maximum number of welcomes to return (defaults to 1000)
+        * `offset` - Optional number of welcomes to skip (defaults to 0)
+
+        # Returns
+
+        Returns a vector of pending welcomes ordered by ID (descending)
+"""
+        
+        _UniffiFfiConverterOptionalUInt32.check_lower(limit)
+        
+        _UniffiFfiConverterOptionalUInt32.check_lower(offset)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterOptionalUInt32.lower(limit),
+            _UniffiFfiConverterOptionalUInt32.lower(offset),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterSequenceTypeWelcome.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_pending_welcomes_paginated,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
