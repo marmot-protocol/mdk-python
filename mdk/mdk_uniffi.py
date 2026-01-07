@@ -510,7 +510,7 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_message() != 52354:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_messages() != 34303:
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_messages() != 36057:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes() != 31211:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -918,6 +918,8 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_message.argtypes = (
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_message.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_messages.argtypes = (
     ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
     _UniffiRustBuffer,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
@@ -2478,29 +2480,6 @@ class _UniffiFfiConverterOptionalTypeMessage(_UniffiConverterRustBuffer):
         else:
             raise InternalError("Unexpected flag byte for optional type")
 
-class _UniffiFfiConverterSequenceTypeMessage(_UniffiConverterRustBuffer):
-    @classmethod
-    def check_lower(cls, value):
-        for item in value:
-            _UniffiFfiConverterTypeMessage.check_lower(item)
-
-    @classmethod
-    def write(cls, value, buf):
-        items = len(value)
-        buf.write_i32(items)
-        for item in value:
-            _UniffiFfiConverterTypeMessage.write(item, buf)
-
-    @classmethod
-    def read(cls, buf):
-        count = buf.read_i32()
-        if count < 0:
-            raise InternalError("Unexpected negative sequence length")
-
-        return [
-            _UniffiFfiConverterTypeMessage.read(buf) for i in range(count)
-        ]
-
 class _UniffiFfiConverterOptionalUInt32(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -2525,6 +2504,29 @@ class _UniffiFfiConverterOptionalUInt32(_UniffiConverterRustBuffer):
             return _UniffiFfiConverterUInt32.read(buf)
         else:
             raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterSequenceTypeMessage(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        for item in value:
+            _UniffiFfiConverterTypeMessage.check_lower(item)
+
+    @classmethod
+    def write(cls, value, buf):
+        items = len(value)
+        buf.write_i32(items)
+        for item in value:
+            _UniffiFfiConverterTypeMessage.write(item, buf)
+
+    @classmethod
+    def read(cls, buf):
+        count = buf.read_i32()
+        if count < 0:
+            raise InternalError("Unexpected negative sequence length")
+
+        return [
+            _UniffiFfiConverterTypeMessage.read(buf) for i in range(count)
+        ]
 
 class _UniffiFfiConverterSequenceTypeWelcome(_UniffiConverterRustBuffer):
     @classmethod
@@ -2640,9 +2642,19 @@ class MdkProtocol(typing.Protocol):
         Get a message by event ID
 """
         raise NotImplementedError
-    def get_messages(self, mls_group_id: str) -> typing.List[Message]:
+    def get_messages(self, mls_group_id: str,limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Message]:
         """
-        Get messages for a group
+        Get messages for a group with optional pagination
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `limit` - Optional maximum number of messages to return (defaults to 1000 if None)
+        * `offset` - Optional number of messages to skip (defaults to 0 if None)
+
+        # Returns
+
+        Returns a vector of messages ordered by creation time
 """
         raise NotImplementedError
     def get_pending_welcomes(self, limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Welcome]:
@@ -2988,15 +3000,31 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
-    def get_messages(self, mls_group_id: str) -> typing.List[Message]:
+    def get_messages(self, mls_group_id: str,limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Message]:
         """
-        Get messages for a group
+        Get messages for a group with optional pagination
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `limit` - Optional maximum number of messages to return (defaults to 1000 if None)
+        * `offset` - Optional number of messages to skip (defaults to 0 if None)
+
+        # Returns
+
+        Returns a vector of messages ordered by creation time
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
+        
+        _UniffiFfiConverterOptionalUInt32.check_lower(limit)
+        
+        _UniffiFfiConverterOptionalUInt32.check_lower(offset)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
             _UniffiFfiConverterString.lower(mls_group_id),
+            _UniffiFfiConverterOptionalUInt32.lower(limit),
+            _UniffiFfiConverterOptionalUInt32.lower(offset),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeMessage.lift
         _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
