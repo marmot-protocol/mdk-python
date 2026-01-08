@@ -2170,7 +2170,7 @@ class ProcessMessageResult:
     @dataclass
     class PROPOSAL:
         """
-        A proposal message (add/remove member proposal)
+        A proposal message that was auto-committed by an admin receiver
 """
         
         def __init__(self, result:UpdateGroupResult):
@@ -2192,6 +2192,34 @@ class ProcessMessageResult:
             if not other.is_PROPOSAL():
                 return False
             if self.result != other.result:
+                return False
+            return True
+
+    @dataclass
+    class PENDING_PROPOSAL:
+        """
+        A pending proposal stored but not committed (receiver is not admin)
+"""
+        
+        def __init__(self, mls_group_id:str):
+            self.mls_group_id = mls_group_id
+            
+            """
+        Hex-encoded MLS group ID this pending proposal belongs to
+"""
+        
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "ProcessMessageResult.PENDING_PROPOSAL(mls_group_id={})".format(self.mls_group_id)
+        def __eq__(self, other):
+            if not other.is_PENDING_PROPOSAL():
+                return False
+            if self.mls_group_id != other.mls_group_id:
                 return False
             return True
 
@@ -2279,6 +2307,42 @@ class ProcessMessageResult:
                 return False
             return True
 
+    @dataclass
+    class IGNORED_PROPOSAL:
+        """
+        Proposal was ignored and not stored
+"""
+        
+        def __init__(self, mls_group_id:str, reason:str):
+            self.mls_group_id = mls_group_id
+            
+            """
+        Hex-encoded MLS group ID this proposal was for
+"""
+        
+            self.reason = reason
+            
+            """
+        Reason the proposal was ignored
+"""
+        
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "ProcessMessageResult.IGNORED_PROPOSAL(mls_group_id={}, reason={})".format(self.mls_group_id, self.reason)
+        def __eq__(self, other):
+            if not other.is_IGNORED_PROPOSAL():
+                return False
+            if self.mls_group_id != other.mls_group_id:
+                return False
+            if self.reason != other.reason:
+                return False
+            return True
+
     
 
     # For each variant, we have `is_NAME` and `is_name` methods for easily checking
@@ -2291,6 +2355,10 @@ class ProcessMessageResult:
         return isinstance(self, ProcessMessageResult.PROPOSAL)
     def is_proposal(self) -> bool:
         return isinstance(self, ProcessMessageResult.PROPOSAL)
+    def is_PENDING_PROPOSAL(self) -> bool:
+        return isinstance(self, ProcessMessageResult.PENDING_PROPOSAL)
+    def is_pending_proposal(self) -> bool:
+        return isinstance(self, ProcessMessageResult.PENDING_PROPOSAL)
     def is_EXTERNAL_JOIN_PROPOSAL(self) -> bool:
         return isinstance(self, ProcessMessageResult.EXTERNAL_JOIN_PROPOSAL)
     def is_external_join_proposal(self) -> bool:
@@ -2303,6 +2371,10 @@ class ProcessMessageResult:
         return isinstance(self, ProcessMessageResult.UNPROCESSABLE)
     def is_unprocessable(self) -> bool:
         return isinstance(self, ProcessMessageResult.UNPROCESSABLE)
+    def is_IGNORED_PROPOSAL(self) -> bool:
+        return isinstance(self, ProcessMessageResult.IGNORED_PROPOSAL)
+    def is_ignored_proposal(self) -> bool:
+        return isinstance(self, ProcessMessageResult.IGNORED_PROPOSAL)
     
 
 # Now, a little trick - we make each nested variant class be a subclass of the main
@@ -2310,9 +2382,11 @@ class ProcessMessageResult:
 # We might be able to do this a little more neatly with a metaclass, but this'll do.
 ProcessMessageResult.APPLICATION_MESSAGE = type("ProcessMessageResult.APPLICATION_MESSAGE", (ProcessMessageResult.APPLICATION_MESSAGE, ProcessMessageResult,), {})  # type: ignore
 ProcessMessageResult.PROPOSAL = type("ProcessMessageResult.PROPOSAL", (ProcessMessageResult.PROPOSAL, ProcessMessageResult,), {})  # type: ignore
+ProcessMessageResult.PENDING_PROPOSAL = type("ProcessMessageResult.PENDING_PROPOSAL", (ProcessMessageResult.PENDING_PROPOSAL, ProcessMessageResult,), {})  # type: ignore
 ProcessMessageResult.EXTERNAL_JOIN_PROPOSAL = type("ProcessMessageResult.EXTERNAL_JOIN_PROPOSAL", (ProcessMessageResult.EXTERNAL_JOIN_PROPOSAL, ProcessMessageResult,), {})  # type: ignore
 ProcessMessageResult.COMMIT = type("ProcessMessageResult.COMMIT", (ProcessMessageResult.COMMIT, ProcessMessageResult,), {})  # type: ignore
 ProcessMessageResult.UNPROCESSABLE = type("ProcessMessageResult.UNPROCESSABLE", (ProcessMessageResult.UNPROCESSABLE, ProcessMessageResult,), {})  # type: ignore
+ProcessMessageResult.IGNORED_PROPOSAL = type("ProcessMessageResult.IGNORED_PROPOSAL", (ProcessMessageResult.IGNORED_PROPOSAL, ProcessMessageResult,), {})  # type: ignore
 
 
 
@@ -2330,15 +2404,24 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
                 _UniffiFfiConverterTypeUpdateGroupResult.read(buf),
             )
         if variant == 3:
-            return ProcessMessageResult.EXTERNAL_JOIN_PROPOSAL(
+            return ProcessMessageResult.PENDING_PROPOSAL(
                 _UniffiFfiConverterString.read(buf),
             )
         if variant == 4:
-            return ProcessMessageResult.COMMIT(
+            return ProcessMessageResult.EXTERNAL_JOIN_PROPOSAL(
                 _UniffiFfiConverterString.read(buf),
             )
         if variant == 5:
+            return ProcessMessageResult.COMMIT(
+                _UniffiFfiConverterString.read(buf),
+            )
+        if variant == 6:
             return ProcessMessageResult.UNPROCESSABLE(
+                _UniffiFfiConverterString.read(buf),
+            )
+        if variant == 7:
+            return ProcessMessageResult.IGNORED_PROPOSAL(
+                _UniffiFfiConverterString.read(buf),
                 _UniffiFfiConverterString.read(buf),
             )
         raise InternalError("Raw enum value doesn't match any cases")
@@ -2351,6 +2434,9 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
         if value.is_PROPOSAL():
             _UniffiFfiConverterTypeUpdateGroupResult.check_lower(value.result)
             return
+        if value.is_PENDING_PROPOSAL():
+            _UniffiFfiConverterString.check_lower(value.mls_group_id)
+            return
         if value.is_EXTERNAL_JOIN_PROPOSAL():
             _UniffiFfiConverterString.check_lower(value.mls_group_id)
             return
@@ -2359,6 +2445,10 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
             return
         if value.is_UNPROCESSABLE():
             _UniffiFfiConverterString.check_lower(value.mls_group_id)
+            return
+        if value.is_IGNORED_PROPOSAL():
+            _UniffiFfiConverterString.check_lower(value.mls_group_id)
+            _UniffiFfiConverterString.check_lower(value.reason)
             return
         raise ValueError(value)
 
@@ -2370,15 +2460,22 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
         if value.is_PROPOSAL():
             buf.write_i32(2)
             _UniffiFfiConverterTypeUpdateGroupResult.write(value.result, buf)
-        if value.is_EXTERNAL_JOIN_PROPOSAL():
+        if value.is_PENDING_PROPOSAL():
             buf.write_i32(3)
             _UniffiFfiConverterString.write(value.mls_group_id, buf)
-        if value.is_COMMIT():
+        if value.is_EXTERNAL_JOIN_PROPOSAL():
             buf.write_i32(4)
             _UniffiFfiConverterString.write(value.mls_group_id, buf)
-        if value.is_UNPROCESSABLE():
+        if value.is_COMMIT():
             buf.write_i32(5)
             _UniffiFfiConverterString.write(value.mls_group_id, buf)
+        if value.is_UNPROCESSABLE():
+            buf.write_i32(6)
+            _UniffiFfiConverterString.write(value.mls_group_id, buf)
+        if value.is_IGNORED_PROPOSAL():
+            buf.write_i32(7)
+            _UniffiFfiConverterString.write(value.mls_group_id, buf)
+            _UniffiFfiConverterString.write(value.reason, buf)
 
 
 
