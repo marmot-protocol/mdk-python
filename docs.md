@@ -19,11 +19,15 @@ pip install .
 ### Import and Initialize
 
 ```python
-from mdk import new_mdk
+from mdk import new_mdk, new_mdk_unencrypted
 
-# Create an MDK instance with a SQLite database path
+# Create an MDK instance with automatic key management (recommended)
+# The encryption key is stored securely in your platform's keyring
 db_path = "/path/to/mdk.db"
-mdk = new_mdk(db_path)
+mdk = new_mdk(db_path, "com.example.myapp", "mdk.db.key.default")
+
+# For development only (unencrypted - never use in production!)
+# mdk = new_mdk_unencrypted(db_path)
 ```
 
 ### Create and Publish Key Package
@@ -299,7 +303,7 @@ class Message:
     event_id: str                  # Event ID (hex-encoded)
     sender_pubkey: str             # Sender public key (hex-encoded)
     event_json: str                # JSON representation of the event
-    processed_at: int              # Timestamp when message was processed (Unix timestamp)
+    created_at: int                # Timestamp when message was created (Unix timestamp)
     kind: int                      # Message kind
     state: str                     # Message state (e.g., "processed", "pending")
 ```
@@ -344,7 +348,7 @@ from mdk import new_mdk
 
 # 1. Initialize
 db_path = "/path/to/mdk.db"
-mdk = new_mdk(db_path)
+mdk = new_mdk(db_path, "com.example.myapp", "mdk.db.key.default")
 
 # 2. Create and publish key package
 key_package = mdk.create_key_package_for_event(

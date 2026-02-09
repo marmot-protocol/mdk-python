@@ -482,7 +482,11 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_func_derive_upload_keypair() != 45595:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_func_new_mdk() != 17648:
+    if lib.uniffi_mdk_uniffi_checksum_func_new_mdk() != 40772:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_func_new_mdk_unencrypted() != 29834:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_func_new_mdk_with_key() != 29974:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_func_prepare_group_image_for_upload() != 65092:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -508,7 +512,7 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_members() != 9763:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_message() != 52354:
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_message() != 47057:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_messages() != 36057:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -825,9 +829,25 @@ _UniffiLib.uniffi_mdk_uniffi_fn_func_derive_upload_keypair.argtypes = (
 _UniffiLib.uniffi_mdk_uniffi_fn_func_derive_upload_keypair.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk.argtypes = (
     _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk.restype = ctypes.c_uint64
+_UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk_unencrypted.argtypes = (
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk_unencrypted.restype = ctypes.c_uint64
+_UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk_with_key.argtypes = (
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk_with_key.restype = ctypes.c_uint64
 _UniffiLib.uniffi_mdk_uniffi_fn_func_prepare_group_image_for_upload.argtypes = (
     _UniffiRustBuffer,
     _UniffiRustBuffer,
@@ -912,6 +932,7 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_members.argtypes = (
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_members.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_message.argtypes = (
     ctypes.c_uint64,
+    _UniffiRustBuffer,
     _UniffiRustBuffer,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
@@ -1012,6 +1033,12 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_func_derive_upload_keypair.restype = ctype
 _UniffiLib.uniffi_mdk_uniffi_checksum_func_new_mdk.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_func_new_mdk.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_new_mdk_unencrypted.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_new_mdk_unencrypted.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_new_mdk_with_key.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_func_new_mdk_with_key.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_func_prepare_group_image_for_upload.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_func_prepare_group_image_for_upload.restype = ctypes.c_uint16
@@ -1267,7 +1294,7 @@ class Group:
     """
     Group representation
 """
-    def __init__(self, *, mls_group_id:str, nostr_group_id:str, name:str, description:str, image_hash:typing.Optional[bytes], image_key:typing.Optional[bytes], image_nonce:typing.Optional[bytes], admin_pubkeys:typing.List[str], last_message_id:typing.Optional[str], last_message_at:typing.Optional[int], epoch:int, state:str):
+    def __init__(self, *, mls_group_id:str, nostr_group_id:str, name:str, description:str, image_hash:typing.Optional[bytes], image_key:typing.Optional[bytes], image_nonce:typing.Optional[bytes], admin_pubkeys:typing.List[str], last_message_id:typing.Optional[str], last_message_at:typing.Optional[int], last_message_processed_at:typing.Optional[int], epoch:int, state:str):
         self.mls_group_id = mls_group_id
         self.nostr_group_id = nostr_group_id
         self.name = name
@@ -1278,6 +1305,7 @@ class Group:
         self.admin_pubkeys = admin_pubkeys
         self.last_message_id = last_message_id
         self.last_message_at = last_message_at
+        self.last_message_processed_at = last_message_processed_at
         self.epoch = epoch
         self.state = state
         
@@ -1285,7 +1313,7 @@ class Group:
 
     
     def __str__(self):
-        return "Group(mls_group_id={}, nostr_group_id={}, name={}, description={}, image_hash={}, image_key={}, image_nonce={}, admin_pubkeys={}, last_message_id={}, last_message_at={}, epoch={}, state={})".format(self.mls_group_id, self.nostr_group_id, self.name, self.description, self.image_hash, self.image_key, self.image_nonce, self.admin_pubkeys, self.last_message_id, self.last_message_at, self.epoch, self.state)
+        return "Group(mls_group_id={}, nostr_group_id={}, name={}, description={}, image_hash={}, image_key={}, image_nonce={}, admin_pubkeys={}, last_message_id={}, last_message_at={}, last_message_processed_at={}, epoch={}, state={})".format(self.mls_group_id, self.nostr_group_id, self.name, self.description, self.image_hash, self.image_key, self.image_nonce, self.admin_pubkeys, self.last_message_id, self.last_message_at, self.last_message_processed_at, self.epoch, self.state)
     def __eq__(self, other):
         if self.mls_group_id != other.mls_group_id:
             return False
@@ -1307,6 +1335,8 @@ class Group:
             return False
         if self.last_message_at != other.last_message_at:
             return False
+        if self.last_message_processed_at != other.last_message_processed_at:
+            return False
         if self.epoch != other.epoch:
             return False
         if self.state != other.state:
@@ -1327,6 +1357,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
             admin_pubkeys=_UniffiFfiConverterSequenceString.read(buf),
             last_message_id=_UniffiFfiConverterOptionalString.read(buf),
             last_message_at=_UniffiFfiConverterOptionalUInt64.read(buf),
+            last_message_processed_at=_UniffiFfiConverterOptionalUInt64.read(buf),
             epoch=_UniffiFfiConverterUInt64.read(buf),
             state=_UniffiFfiConverterString.read(buf),
         )
@@ -1343,6 +1374,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
         _UniffiFfiConverterSequenceString.check_lower(value.admin_pubkeys)
         _UniffiFfiConverterOptionalString.check_lower(value.last_message_id)
         _UniffiFfiConverterOptionalUInt64.check_lower(value.last_message_at)
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.last_message_processed_at)
         _UniffiFfiConverterUInt64.check_lower(value.epoch)
         _UniffiFfiConverterString.check_lower(value.state)
 
@@ -1358,6 +1390,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
         _UniffiFfiConverterSequenceString.write(value.admin_pubkeys, buf)
         _UniffiFfiConverterOptionalString.write(value.last_message_id, buf)
         _UniffiFfiConverterOptionalUInt64.write(value.last_message_at, buf)
+        _UniffiFfiConverterOptionalUInt64.write(value.last_message_processed_at, buf)
         _UniffiFfiConverterUInt64.write(value.epoch, buf)
         _UniffiFfiConverterString.write(value.state, buf)
 
@@ -1745,6 +1778,98 @@ class _UniffiFfiConverterTypeKeyPackageResult(_UniffiConverterRustBuffer):
         _UniffiFfiConverterString.write(value.key_package, buf)
         _UniffiFfiConverterSequenceSequenceString.write(value.tags, buf)
 
+class _UniffiFfiConverterOptionalUInt32(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterUInt32.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterUInt32.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterUInt32.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+@dataclass
+class MdkConfig:
+    """
+    Configuration for MDK behavior
+
+    This struct allows customization of various MDK parameters including
+    message validation and MLS sender ratchet settings. All fields are optional
+    and default to sensible values when not provided.
+"""
+    def __init__(self, *, max_event_age_secs:typing.Optional[int], max_future_skew_secs:typing.Optional[int], out_of_order_tolerance:typing.Optional[int], maximum_forward_distance:typing.Optional[int], epoch_snapshot_retention:typing.Optional[int], snapshot_ttl_seconds:typing.Optional[int]):
+        self.max_event_age_secs = max_event_age_secs
+        self.max_future_skew_secs = max_future_skew_secs
+        self.out_of_order_tolerance = out_of_order_tolerance
+        self.maximum_forward_distance = maximum_forward_distance
+        self.epoch_snapshot_retention = epoch_snapshot_retention
+        self.snapshot_ttl_seconds = snapshot_ttl_seconds
+        
+        
+
+    
+    def __str__(self):
+        return "MdkConfig(max_event_age_secs={}, max_future_skew_secs={}, out_of_order_tolerance={}, maximum_forward_distance={}, epoch_snapshot_retention={}, snapshot_ttl_seconds={})".format(self.max_event_age_secs, self.max_future_skew_secs, self.out_of_order_tolerance, self.maximum_forward_distance, self.epoch_snapshot_retention, self.snapshot_ttl_seconds)
+    def __eq__(self, other):
+        if self.max_event_age_secs != other.max_event_age_secs:
+            return False
+        if self.max_future_skew_secs != other.max_future_skew_secs:
+            return False
+        if self.out_of_order_tolerance != other.out_of_order_tolerance:
+            return False
+        if self.maximum_forward_distance != other.maximum_forward_distance:
+            return False
+        if self.epoch_snapshot_retention != other.epoch_snapshot_retention:
+            return False
+        if self.snapshot_ttl_seconds != other.snapshot_ttl_seconds:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeMdkConfig(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return MdkConfig(
+            max_event_age_secs=_UniffiFfiConverterOptionalUInt64.read(buf),
+            max_future_skew_secs=_UniffiFfiConverterOptionalUInt64.read(buf),
+            out_of_order_tolerance=_UniffiFfiConverterOptionalUInt32.read(buf),
+            maximum_forward_distance=_UniffiFfiConverterOptionalUInt32.read(buf),
+            epoch_snapshot_retention=_UniffiFfiConverterOptionalUInt32.read(buf),
+            snapshot_ttl_seconds=_UniffiFfiConverterOptionalUInt64.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.max_event_age_secs)
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.max_future_skew_secs)
+        _UniffiFfiConverterOptionalUInt32.check_lower(value.out_of_order_tolerance)
+        _UniffiFfiConverterOptionalUInt32.check_lower(value.maximum_forward_distance)
+        _UniffiFfiConverterOptionalUInt32.check_lower(value.epoch_snapshot_retention)
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.snapshot_ttl_seconds)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalUInt64.write(value.max_event_age_secs, buf)
+        _UniffiFfiConverterOptionalUInt64.write(value.max_future_skew_secs, buf)
+        _UniffiFfiConverterOptionalUInt32.write(value.out_of_order_tolerance, buf)
+        _UniffiFfiConverterOptionalUInt32.write(value.maximum_forward_distance, buf)
+        _UniffiFfiConverterOptionalUInt32.write(value.epoch_snapshot_retention, buf)
+        _UniffiFfiConverterOptionalUInt64.write(value.snapshot_ttl_seconds, buf)
+
 class _UniffiFfiConverterUInt16(_UniffiConverterPrimitiveInt):
     CLASS_NAME = "u16"
     VALUE_MIN = 0
@@ -1763,13 +1888,14 @@ class Message:
     """
     Message representation
 """
-    def __init__(self, *, id:str, mls_group_id:str, nostr_group_id:str, event_id:str, sender_pubkey:str, event_json:str, processed_at:int, kind:int, state:str):
+    def __init__(self, *, id:str, mls_group_id:str, nostr_group_id:str, event_id:str, sender_pubkey:str, event_json:str, created_at:int, processed_at:int, kind:int, state:str):
         self.id = id
         self.mls_group_id = mls_group_id
         self.nostr_group_id = nostr_group_id
         self.event_id = event_id
         self.sender_pubkey = sender_pubkey
         self.event_json = event_json
+        self.created_at = created_at
         self.processed_at = processed_at
         self.kind = kind
         self.state = state
@@ -1778,7 +1904,7 @@ class Message:
 
     
     def __str__(self):
-        return "Message(id={}, mls_group_id={}, nostr_group_id={}, event_id={}, sender_pubkey={}, event_json={}, processed_at={}, kind={}, state={})".format(self.id, self.mls_group_id, self.nostr_group_id, self.event_id, self.sender_pubkey, self.event_json, self.processed_at, self.kind, self.state)
+        return "Message(id={}, mls_group_id={}, nostr_group_id={}, event_id={}, sender_pubkey={}, event_json={}, created_at={}, processed_at={}, kind={}, state={})".format(self.id, self.mls_group_id, self.nostr_group_id, self.event_id, self.sender_pubkey, self.event_json, self.created_at, self.processed_at, self.kind, self.state)
     def __eq__(self, other):
         if self.id != other.id:
             return False
@@ -1791,6 +1917,8 @@ class Message:
         if self.sender_pubkey != other.sender_pubkey:
             return False
         if self.event_json != other.event_json:
+            return False
+        if self.created_at != other.created_at:
             return False
         if self.processed_at != other.processed_at:
             return False
@@ -1810,6 +1938,7 @@ class _UniffiFfiConverterTypeMessage(_UniffiConverterRustBuffer):
             event_id=_UniffiFfiConverterString.read(buf),
             sender_pubkey=_UniffiFfiConverterString.read(buf),
             event_json=_UniffiFfiConverterString.read(buf),
+            created_at=_UniffiFfiConverterUInt64.read(buf),
             processed_at=_UniffiFfiConverterUInt64.read(buf),
             kind=_UniffiFfiConverterUInt16.read(buf),
             state=_UniffiFfiConverterString.read(buf),
@@ -1823,6 +1952,7 @@ class _UniffiFfiConverterTypeMessage(_UniffiConverterRustBuffer):
         _UniffiFfiConverterString.check_lower(value.event_id)
         _UniffiFfiConverterString.check_lower(value.sender_pubkey)
         _UniffiFfiConverterString.check_lower(value.event_json)
+        _UniffiFfiConverterUInt64.check_lower(value.created_at)
         _UniffiFfiConverterUInt64.check_lower(value.processed_at)
         _UniffiFfiConverterUInt16.check_lower(value.kind)
         _UniffiFfiConverterString.check_lower(value.state)
@@ -1835,6 +1965,7 @@ class _UniffiFfiConverterTypeMessage(_UniffiConverterRustBuffer):
         _UniffiFfiConverterString.write(value.event_id, buf)
         _UniffiFfiConverterString.write(value.sender_pubkey, buf)
         _UniffiFfiConverterString.write(value.event_json, buf)
+        _UniffiFfiConverterUInt64.write(value.created_at, buf)
         _UniffiFfiConverterUInt64.write(value.processed_at, buf)
         _UniffiFfiConverterUInt16.write(value.kind, buf)
         _UniffiFfiConverterString.write(value.state, buf)
@@ -2343,6 +2474,30 @@ class ProcessMessageResult:
                 return False
             return True
 
+    @dataclass
+    class PREVIOUSLY_FAILED:
+        """
+        Message was previously marked as failed and cannot be reprocessed
+
+        This is returned when attempting to process a message that previously
+        failed. Unlike throwing an error, this allows clients to handle the
+        case gracefully without crashing.
+"""
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "ProcessMessageResult.PREVIOUSLY_FAILED()".format()
+        def __eq__(self, other):
+            if not other.is_PREVIOUSLY_FAILED():
+                return False
+            return True
+
     
 
     # For each variant, we have `is_NAME` and `is_name` methods for easily checking
@@ -2375,6 +2530,10 @@ class ProcessMessageResult:
         return isinstance(self, ProcessMessageResult.IGNORED_PROPOSAL)
     def is_ignored_proposal(self) -> bool:
         return isinstance(self, ProcessMessageResult.IGNORED_PROPOSAL)
+    def is_PREVIOUSLY_FAILED(self) -> bool:
+        return isinstance(self, ProcessMessageResult.PREVIOUSLY_FAILED)
+    def is_previously_failed(self) -> bool:
+        return isinstance(self, ProcessMessageResult.PREVIOUSLY_FAILED)
     
 
 # Now, a little trick - we make each nested variant class be a subclass of the main
@@ -2387,6 +2546,7 @@ ProcessMessageResult.EXTERNAL_JOIN_PROPOSAL = type("ProcessMessageResult.EXTERNA
 ProcessMessageResult.COMMIT = type("ProcessMessageResult.COMMIT", (ProcessMessageResult.COMMIT, ProcessMessageResult,), {})  # type: ignore
 ProcessMessageResult.UNPROCESSABLE = type("ProcessMessageResult.UNPROCESSABLE", (ProcessMessageResult.UNPROCESSABLE, ProcessMessageResult,), {})  # type: ignore
 ProcessMessageResult.IGNORED_PROPOSAL = type("ProcessMessageResult.IGNORED_PROPOSAL", (ProcessMessageResult.IGNORED_PROPOSAL, ProcessMessageResult,), {})  # type: ignore
+ProcessMessageResult.PREVIOUSLY_FAILED = type("ProcessMessageResult.PREVIOUSLY_FAILED", (ProcessMessageResult.PREVIOUSLY_FAILED, ProcessMessageResult,), {})  # type: ignore
 
 
 
@@ -2424,6 +2584,9 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
                 _UniffiFfiConverterString.read(buf),
                 _UniffiFfiConverterString.read(buf),
             )
+        if variant == 8:
+            return ProcessMessageResult.PREVIOUSLY_FAILED(
+            )
         raise InternalError("Raw enum value doesn't match any cases")
 
     @staticmethod
@@ -2449,6 +2612,8 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
         if value.is_IGNORED_PROPOSAL():
             _UniffiFfiConverterString.check_lower(value.mls_group_id)
             _UniffiFfiConverterString.check_lower(value.reason)
+            return
+        if value.is_PREVIOUSLY_FAILED():
             return
         raise ValueError(value)
 
@@ -2476,6 +2641,8 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
             buf.write_i32(7)
             _UniffiFfiConverterString.write(value.mls_group_id, buf)
             _UniffiFfiConverterString.write(value.reason, buf)
+        if value.is_PREVIOUSLY_FAILED():
+            buf.write_i32(8)
 
 
 
@@ -2574,31 +2741,6 @@ class _UniffiFfiConverterOptionalTypeMessage(_UniffiConverterRustBuffer):
             return None
         elif flag == 1:
             return _UniffiFfiConverterTypeMessage.read(buf)
-        else:
-            raise InternalError("Unexpected flag byte for optional type")
-
-class _UniffiFfiConverterOptionalUInt32(_UniffiConverterRustBuffer):
-    @classmethod
-    def check_lower(cls, value):
-        if value is not None:
-            _UniffiFfiConverterUInt32.check_lower(value)
-
-    @classmethod
-    def write(cls, value, buf):
-        if value is None:
-            buf.write_u8(0)
-            return
-
-        buf.write_u8(1)
-        _UniffiFfiConverterUInt32.write(value, buf)
-
-    @classmethod
-    def read(cls, buf):
-        flag = buf.read_u8()
-        if flag == 0:
-            return None
-        elif flag == 1:
-            return _UniffiFfiConverterUInt32.read(buf)
         else:
             raise InternalError("Unexpected flag byte for optional type")
 
@@ -2734,9 +2876,18 @@ class MdkProtocol(typing.Protocol):
         Get members of a group
 """
         raise NotImplementedError
-    def get_message(self, event_id: str) -> typing.Optional[Message]:
+    def get_message(self, mls_group_id: str,event_id: str) -> typing.Optional[Message]:
         """
-        Get a message by event ID
+        Get a message by event ID within a specific group
+
+        # Arguments
+
+        * `mls_group_id` - The MLS group ID the message belongs to (hex-encoded)
+        * `event_id` - The Nostr event ID to look up (hex-encoded)
+
+        # Returns
+
+        Returns the message if found, None otherwise
 """
         raise NotImplementedError
     def get_messages(self, mls_group_id: str,limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Message]:
@@ -3079,14 +3230,26 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
-    def get_message(self, event_id: str) -> typing.Optional[Message]:
+    def get_message(self, mls_group_id: str,event_id: str) -> typing.Optional[Message]:
         """
-        Get a message by event ID
+        Get a message by event ID within a specific group
+
+        # Arguments
+
+        * `mls_group_id` - The MLS group ID the message belongs to (hex-encoded)
+        * `event_id` - The Nostr event ID to look up (hex-encoded)
+
+        # Returns
+
+        Returns the message if found, None otherwise
 """
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
         
         _UniffiFfiConverterString.check_lower(event_id)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
             _UniffiFfiConverterString.lower(event_id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeMessage.lift
@@ -3398,6 +3561,31 @@ class _UniffiFfiConverterTypeMdk:
     def write(cls, value: Mdk, buf: _UniffiRustBuffer):
         buf.write_u64(cls.lower(value))
 
+class _UniffiFfiConverterOptionalTypeMdkConfig(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeMdkConfig.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeMdkConfig.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeMdkConfig.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
 class _UniffiFfiConverterUInt8(_UniffiConverterPrimitiveInt):
     CLASS_NAME = "u8"
     VALUE_MIN = 0
@@ -3456,20 +3644,125 @@ def derive_upload_keypair(image_key: bytes,version: int) -> str:
         *_uniffi_lowered_args,
     )
     return _uniffi_lift_return(_uniffi_ffi_result)
-def new_mdk(db_path: str) -> Mdk:
+def new_mdk(db_path: str,service_id: str,db_key_id: str,config: typing.Optional[MdkConfig]) -> Mdk:
     """
-    Create a new MDK instance with SQLite storage
+    Create a new MDK instance with encrypted SQLite storage using automatic key management.
+
+    This is the recommended constructor for production use. The database encryption key
+    is automatically retrieved from (or generated and stored in) the platform's native
+    keyring (Keychain on macOS/iOS, Keystore on Android, etc.).
+
+    # Prerequisites
+
+    The host application must initialize a platform-specific keyring store before calling
+    this function:
+
+    - **macOS/iOS**: `keyring_core::set_default_store(AppleStore::new())`
+    - **Android**: Initialize from Kotlin (see Android documentation)
+    - **Windows**: `keyring_core::set_default_store(WindowsStore::new())`
+    - **Linux**: `keyring_core::set_default_store(KeyutilsStore::new())`
+
+    # Arguments
+
+    * `db_path` - Path to the SQLite database file
+    * `service_id` - A stable, host-defined application identifier (e.g., "com.example.myapp")
+    * `db_key_id` - A stable identifier for this database's key (e.g., "mdk.db.key.default")
+    * `config` - Optional MDK configuration. If None, uses default configuration.
+
+    # Errors
+
+    Returns an error if:
+    - No keyring store has been initialized
+    - The keyring is unavailable or inaccessible
+    - The database cannot be opened or created
 """
     
     _UniffiFfiConverterString.check_lower(db_path)
+    
+    _UniffiFfiConverterString.check_lower(service_id)
+    
+    _UniffiFfiConverterString.check_lower(db_key_id)
+    
+    _UniffiFfiConverterOptionalTypeMdkConfig.check_lower(config)
     _uniffi_lowered_args = (
         _UniffiFfiConverterString.lower(db_path),
+        _UniffiFfiConverterString.lower(service_id),
+        _UniffiFfiConverterString.lower(db_key_id),
+        _UniffiFfiConverterOptionalTypeMdkConfig.lower(config),
     )
     _uniffi_lift_return = _UniffiFfiConverterTypeMdk.lift
     _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
     _uniffi_ffi_result = _uniffi_rust_call_with_error(
         _uniffi_error_converter,
         _UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk,
+        *_uniffi_lowered_args,
+    )
+    return _uniffi_lift_return(_uniffi_ffi_result)
+def new_mdk_unencrypted(db_path: str,config: typing.Optional[MdkConfig]) -> Mdk:
+    """
+    Create a new MDK instance with unencrypted SQLite storage.
+
+    ⚠️ **WARNING**: This creates an unencrypted database. Sensitive MLS state
+    including exporter secrets will be stored in plaintext.
+
+    Only use this for development or testing. For production use, use `new_mdk`
+    with an encryption key.
+
+    # Arguments
+
+    * `db_path` - Path to the SQLite database file
+    * `config` - Optional MDK configuration. If None, uses default configuration.
+"""
+    
+    _UniffiFfiConverterString.check_lower(db_path)
+    
+    _UniffiFfiConverterOptionalTypeMdkConfig.check_lower(config)
+    _uniffi_lowered_args = (
+        _UniffiFfiConverterString.lower(db_path),
+        _UniffiFfiConverterOptionalTypeMdkConfig.lower(config),
+    )
+    _uniffi_lift_return = _UniffiFfiConverterTypeMdk.lift
+    _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+    _uniffi_ffi_result = _uniffi_rust_call_with_error(
+        _uniffi_error_converter,
+        _UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk_unencrypted,
+        *_uniffi_lowered_args,
+    )
+    return _uniffi_lift_return(_uniffi_ffi_result)
+def new_mdk_with_key(db_path: str,encryption_key: bytes,config: typing.Optional[MdkConfig]) -> Mdk:
+    """
+    Create a new MDK instance with encrypted SQLite storage using a directly provided key.
+
+    Use this when you want to manage encryption keys yourself rather than using the
+    platform keyring. For most applications, prefer `new_mdk` which handles key
+    management automatically.
+
+    # Arguments
+
+    * `db_path` - Path to the SQLite database file
+    * `encryption_key` - 32-byte encryption key (must be exactly 32 bytes)
+    * `config` - Optional MDK configuration. If None, uses default configuration.
+
+    # Errors
+
+    Returns an error if the key is not 32 bytes or if the database cannot be opened.
+"""
+    
+    _UniffiFfiConverterString.check_lower(db_path)
+    
+    _UniffiFfiConverterBytes.check_lower(encryption_key)
+    
+    _UniffiFfiConverterOptionalTypeMdkConfig.check_lower(config)
+    _uniffi_lowered_args = (
+        _UniffiFfiConverterString.lower(db_path),
+        _UniffiFfiConverterBytes.lower(encryption_key),
+        _UniffiFfiConverterOptionalTypeMdkConfig.lower(config),
+    )
+    _uniffi_lift_return = _UniffiFfiConverterTypeMdk.lift
+    _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+    _uniffi_ffi_result = _uniffi_rust_call_with_error(
+        _uniffi_error_converter,
+        _UniffiLib.uniffi_mdk_uniffi_fn_func_new_mdk_with_key,
         *_uniffi_lowered_args,
     )
     return _uniffi_lift_return(_uniffi_ffi_result)
@@ -3504,12 +3797,15 @@ __all__ = [
     "ImageDimensions",
     "GroupImageUpload",
     "KeyPackageResult",
+    "MdkConfig",
     "Message",
     "UpdateGroupResult",
     "Welcome",
     "decrypt_group_image",
     "derive_upload_keypair",
     "new_mdk",
+    "new_mdk_unencrypted",
+    "new_mdk_with_key",
     "prepare_group_image_for_upload",
     "Mdk",
     "MdkProtocol",
