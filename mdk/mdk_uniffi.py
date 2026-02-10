@@ -512,11 +512,13 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_groups() != 20872:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_last_message() != 16338:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_members() != 9763:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_message() != 47057:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_messages() != 36057:
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_messages() != 47346:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_pending_welcomes() != 31211:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -934,6 +936,13 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_groups.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_groups.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_last_message.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_last_message.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_members.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -949,6 +958,7 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_message.argtypes = (
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_message.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_messages.argtypes = (
     ctypes.c_uint64,
+    _UniffiRustBuffer,
     _UniffiRustBuffer,
     _UniffiRustBuffer,
     _UniffiRustBuffer,
@@ -1085,6 +1095,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_group.restype = ctypes.c_ui
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_groups.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_groups.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_last_message.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_last_message.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_members.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_members.restype = ctypes.c_uint16
@@ -2923,6 +2936,24 @@ class MdkProtocol(typing.Protocol):
         Get all groups
 """
         raise NotImplementedError
+    def get_last_message(self, mls_group_id: str,sort_order: str) -> typing.Optional[Message]:
+        """
+        Get the most recent message in a group according to the given sort order
+
+        This is useful for clients that use `"processed_at_first"` sort order and need
+        a "last message" value that is consistent with their `get_messages()` ordering.
+        The cached `group.last_message_id` always reflects `"created_at_first"` ordering.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `sort_order` - Sort order: `"created_at_first"` or `"processed_at_first"`
+
+        # Returns
+
+        Returns the most recent message under the given ordering, or None if the group has no messages
+"""
+        raise NotImplementedError
     def get_members(self, mls_group_id: str) -> typing.List[str]:
         """
         Get members of a group
@@ -2942,7 +2973,7 @@ class MdkProtocol(typing.Protocol):
         Returns the message if found, None otherwise
 """
         raise NotImplementedError
-    def get_messages(self, mls_group_id: str,limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Message]:
+    def get_messages(self, mls_group_id: str,limit: typing.Optional[int],offset: typing.Optional[int],sort_order: typing.Optional[str]) -> typing.List[Message]:
         """
         Get messages for a group with optional pagination
 
@@ -2951,10 +2982,11 @@ class MdkProtocol(typing.Protocol):
         * `mls_group_id` - Hex-encoded MLS group ID
         * `limit` - Optional maximum number of messages to return (defaults to 1000 if None)
         * `offset` - Optional number of messages to skip (defaults to 0 if None)
+        * `sort_order` - Optional sort order: `"created_at_first"` (default) or `"processed_at_first"`
 
         # Returns
 
-        Returns a vector of messages ordered by creation time
+        Returns a vector of messages in the requested sort order
 """
         raise NotImplementedError
     def get_pending_welcomes(self, limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Welcome]:
@@ -3301,6 +3333,40 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def get_last_message(self, mls_group_id: str,sort_order: str) -> typing.Optional[Message]:
+        """
+        Get the most recent message in a group according to the given sort order
+
+        This is useful for clients that use `"processed_at_first"` sort order and need
+        a "last message" value that is consistent with their `get_messages()` ordering.
+        The cached `group.last_message_id` always reflects `"created_at_first"` ordering.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `sort_order` - Sort order: `"created_at_first"` or `"processed_at_first"`
+
+        # Returns
+
+        Returns the most recent message under the given ordering, or None if the group has no messages
+"""
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
+        
+        _UniffiFfiConverterString.check_lower(sort_order)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
+            _UniffiFfiConverterString.lower(sort_order),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterOptionalTypeMessage.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_last_message,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
     def get_members(self, mls_group_id: str) -> typing.List[str]:
         """
         Get members of a group
@@ -3349,7 +3415,7 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
-    def get_messages(self, mls_group_id: str,limit: typing.Optional[int],offset: typing.Optional[int]) -> typing.List[Message]:
+    def get_messages(self, mls_group_id: str,limit: typing.Optional[int],offset: typing.Optional[int],sort_order: typing.Optional[str]) -> typing.List[Message]:
         """
         Get messages for a group with optional pagination
 
@@ -3358,10 +3424,11 @@ class Mdk(MdkProtocol):
         * `mls_group_id` - Hex-encoded MLS group ID
         * `limit` - Optional maximum number of messages to return (defaults to 1000 if None)
         * `offset` - Optional number of messages to skip (defaults to 0 if None)
+        * `sort_order` - Optional sort order: `"created_at_first"` (default) or `"processed_at_first"`
 
         # Returns
 
-        Returns a vector of messages ordered by creation time
+        Returns a vector of messages in the requested sort order
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
@@ -3369,11 +3436,14 @@ class Mdk(MdkProtocol):
         _UniffiFfiConverterOptionalUInt32.check_lower(limit)
         
         _UniffiFfiConverterOptionalUInt32.check_lower(offset)
+        
+        _UniffiFfiConverterOptionalString.check_lower(sort_order)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
             _UniffiFfiConverterString.lower(mls_group_id),
             _UniffiFfiConverterOptionalUInt32.lower(limit),
             _UniffiFfiConverterOptionalUInt32.lower(offset),
+            _UniffiFfiConverterOptionalString.lower(sort_order),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeMessage.lift
         _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
