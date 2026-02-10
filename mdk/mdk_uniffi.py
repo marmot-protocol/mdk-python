@@ -498,7 +498,9 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_group() != 56895:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event() != 48232:
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event() != 46847:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event_with_options() != 59356:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_message() != 58601:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -891,6 +893,14 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event.argtypes
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event_with_options.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.c_int8,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event_with_options.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_message.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1057,6 +1067,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_group.restype = ctypes.c
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event_with_options.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event_with_options.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_message.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_message.restype = ctypes.c_uint16
@@ -2646,6 +2659,27 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
 
 
 
+class _UniffiFfiConverterBoolean:
+    @classmethod
+    def check_lower(cls, value):
+        return not not value
+
+    @classmethod
+    def lower(cls, value):
+        return 1 if value else 0
+
+    @staticmethod
+    def lift(value):
+        return value != 0
+
+    @classmethod
+    def read(cls, buf):
+        return cls.lift(buf.read_u8())
+
+    @classmethod
+    def write(cls, value, buf):
+        buf.write_u8(value)
+
 class _UniffiFfiConverterOptionalSequenceSequenceString(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -2844,6 +2878,24 @@ class MdkProtocol(typing.Protocol):
     def create_key_package_for_event(self, public_key: str,relays: typing.List[str]) -> KeyPackageResult:
         """
         Create a key package for a Nostr event
+
+        This function does NOT add the NIP-70 protected tag, ensuring maximum relay
+        compatibility. Many popular relays (Damus, Primal, nos.lol) reject protected events.
+        If you need the protected tag, use `create_key_package_for_event_with_options` instead.
+"""
+        raise NotImplementedError
+    def create_key_package_for_event_with_options(self, public_key: str,relays: typing.List[str],protected: bool) -> KeyPackageResult:
+        """
+        Create a key package for a Nostr event with additional options
+
+        # Arguments
+
+        * `public_key` - The Nostr public key (hex) for the credential
+        * `relays` - Relay URLs where the key package will be published
+        * `protected` - Whether to add the NIP-70 protected tag. When `true`, relays that
+        implement NIP-70 will reject republishing by third parties. However, many popular
+        relays reject protected events entirely. Set to `false` for maximum relay
+        compatibility.
 """
         raise NotImplementedError
     def create_message(self, mls_group_id: str,sender_public_key: str,content: str,kind: int,tags: typing.Optional[typing.List[typing.List[str]]]) -> str:
@@ -3095,6 +3147,10 @@ class Mdk(MdkProtocol):
     def create_key_package_for_event(self, public_key: str,relays: typing.List[str]) -> KeyPackageResult:
         """
         Create a key package for a Nostr event
+
+        This function does NOT add the NIP-70 protected tag, ensuring maximum relay
+        compatibility. Many popular relays (Damus, Primal, nos.lol) reject protected events.
+        If you need the protected tag, use `create_key_package_for_event_with_options` instead.
 """
         
         _UniffiFfiConverterString.check_lower(public_key)
@@ -3110,6 +3166,39 @@ class Mdk(MdkProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def create_key_package_for_event_with_options(self, public_key: str,relays: typing.List[str],protected: bool) -> KeyPackageResult:
+        """
+        Create a key package for a Nostr event with additional options
+
+        # Arguments
+
+        * `public_key` - The Nostr public key (hex) for the credential
+        * `relays` - Relay URLs where the key package will be published
+        * `protected` - Whether to add the NIP-70 protected tag. When `true`, relays that
+        implement NIP-70 will reject republishing by third parties. However, many popular
+        relays reject protected events entirely. Set to `false` for maximum relay
+        compatibility.
+"""
+        
+        _UniffiFfiConverterString.check_lower(public_key)
+        
+        _UniffiFfiConverterSequenceString.check_lower(relays)
+        
+        _UniffiFfiConverterBoolean.check_lower(protected)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(public_key),
+            _UniffiFfiConverterSequenceString.lower(relays),
+            _UniffiFfiConverterBoolean.lower(protected),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterTypeKeyPackageResult.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event_with_options,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
