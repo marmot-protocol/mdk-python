@@ -1770,19 +1770,22 @@ class KeyPackageResult:
     """
     Result of creating a key package
 """
-    def __init__(self, *, key_package:str, tags:typing.List[typing.List[str]]):
+    def __init__(self, *, key_package:str, tags:typing.List[typing.List[str]], hash_ref:bytes):
         self.key_package = key_package
         self.tags = tags
+        self.hash_ref = hash_ref
         
         
 
     
     def __str__(self):
-        return "KeyPackageResult(key_package={}, tags={})".format(self.key_package, self.tags)
+        return "KeyPackageResult(key_package={}, tags={}, hash_ref={})".format(self.key_package, self.tags, self.hash_ref)
     def __eq__(self, other):
         if self.key_package != other.key_package:
             return False
         if self.tags != other.tags:
+            return False
+        if self.hash_ref != other.hash_ref:
             return False
         return True
 
@@ -1792,17 +1795,20 @@ class _UniffiFfiConverterTypeKeyPackageResult(_UniffiConverterRustBuffer):
         return KeyPackageResult(
             key_package=_UniffiFfiConverterString.read(buf),
             tags=_UniffiFfiConverterSequenceSequenceString.read(buf),
+            hash_ref=_UniffiFfiConverterBytes.read(buf),
         )
 
     @staticmethod
     def check_lower(value):
         _UniffiFfiConverterString.check_lower(value.key_package)
         _UniffiFfiConverterSequenceSequenceString.check_lower(value.tags)
+        _UniffiFfiConverterBytes.check_lower(value.hash_ref)
 
     @staticmethod
     def write(value, buf):
         _UniffiFfiConverterString.write(value.key_package, buf)
         _UniffiFfiConverterSequenceSequenceString.write(value.tags, buf)
+        _UniffiFfiConverterBytes.write(value.hash_ref, buf)
 
 class _UniffiFfiConverterOptionalUInt32(_UniffiConverterRustBuffer):
     @classmethod
