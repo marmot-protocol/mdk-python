@@ -526,6 +526,8 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome() != 25012:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_groups_needing_self_update() != 16699:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_leave_group() != 46166:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_merge_pending_commit() != 22201:
@@ -984,6 +986,12 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_welcome.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_welcome.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_groups_needing_self_update.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_uint64,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_groups_needing_self_update.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_leave_group.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1116,6 +1124,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_relays.restype = ctypes.c_u
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_groups_needing_self_update.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_groups_needing_self_update.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_leave_group.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_leave_group.restype = ctypes.c_uint16
@@ -1320,7 +1331,7 @@ class Group:
     """
     Group representation
 """
-    def __init__(self, *, mls_group_id:str, nostr_group_id:str, name:str, description:str, image_hash:typing.Optional[bytes], image_key:typing.Optional[bytes], image_nonce:typing.Optional[bytes], admin_pubkeys:typing.List[str], last_message_id:typing.Optional[str], last_message_at:typing.Optional[int], last_message_processed_at:typing.Optional[int], epoch:int, state:str):
+    def __init__(self, *, mls_group_id:str, nostr_group_id:str, name:str, description:str, image_hash:typing.Optional[bytes], image_key:typing.Optional[bytes], image_nonce:typing.Optional[bytes], admin_pubkeys:typing.List[str], last_message_id:typing.Optional[str], last_message_at:typing.Optional[int], last_message_processed_at:typing.Optional[int], epoch:int, state:str, self_update_state:str):
         self.mls_group_id = mls_group_id
         self.nostr_group_id = nostr_group_id
         self.name = name
@@ -1334,12 +1345,13 @@ class Group:
         self.last_message_processed_at = last_message_processed_at
         self.epoch = epoch
         self.state = state
+        self.self_update_state = self_update_state
         
         
 
     
     def __str__(self):
-        return "Group(mls_group_id={}, nostr_group_id={}, name={}, description={}, image_hash={}, image_key={}, image_nonce={}, admin_pubkeys={}, last_message_id={}, last_message_at={}, last_message_processed_at={}, epoch={}, state={})".format(self.mls_group_id, self.nostr_group_id, self.name, self.description, self.image_hash, self.image_key, self.image_nonce, self.admin_pubkeys, self.last_message_id, self.last_message_at, self.last_message_processed_at, self.epoch, self.state)
+        return "Group(mls_group_id={}, nostr_group_id={}, name={}, description={}, image_hash={}, image_key={}, image_nonce={}, admin_pubkeys={}, last_message_id={}, last_message_at={}, last_message_processed_at={}, epoch={}, state={}, self_update_state={})".format(self.mls_group_id, self.nostr_group_id, self.name, self.description, self.image_hash, self.image_key, self.image_nonce, self.admin_pubkeys, self.last_message_id, self.last_message_at, self.last_message_processed_at, self.epoch, self.state, self.self_update_state)
     def __eq__(self, other):
         if self.mls_group_id != other.mls_group_id:
             return False
@@ -1367,6 +1379,8 @@ class Group:
             return False
         if self.state != other.state:
             return False
+        if self.self_update_state != other.self_update_state:
+            return False
         return True
 
 class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
@@ -1386,6 +1400,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
             last_message_processed_at=_UniffiFfiConverterOptionalUInt64.read(buf),
             epoch=_UniffiFfiConverterUInt64.read(buf),
             state=_UniffiFfiConverterString.read(buf),
+            self_update_state=_UniffiFfiConverterString.read(buf),
         )
 
     @staticmethod
@@ -1403,6 +1418,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalUInt64.check_lower(value.last_message_processed_at)
         _UniffiFfiConverterUInt64.check_lower(value.epoch)
         _UniffiFfiConverterString.check_lower(value.state)
+        _UniffiFfiConverterString.check_lower(value.self_update_state)
 
     @staticmethod
     def write(value, buf):
@@ -1419,6 +1435,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalUInt64.write(value.last_message_processed_at, buf)
         _UniffiFfiConverterUInt64.write(value.epoch, buf)
         _UniffiFfiConverterString.write(value.state, buf)
+        _UniffiFfiConverterString.write(value.self_update_state, buf)
 
 @dataclass
 class CreateGroupResult:
@@ -3019,6 +3036,11 @@ class MdkProtocol(typing.Protocol):
         Get a welcome by event ID
 """
         raise NotImplementedError
+    def groups_needing_self_update(self, threshold_secs: int) -> typing.List[str]:
+        """
+        Get group IDs that need a self-update (post-join or stale rotation).
+"""
+        raise NotImplementedError
     def leave_group(self, mls_group_id: str) -> UpdateGroupResult:
         """
         Create a proposal to leave the group
@@ -3522,6 +3544,24 @@ class Mdk(MdkProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_welcome,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def groups_needing_self_update(self, threshold_secs: int) -> typing.List[str]:
+        """
+        Get group IDs that need a self-update (post-join or stale rotation).
+"""
+        
+        _UniffiFfiConverterUInt64.check_lower(threshold_secs)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterUInt64.lower(threshold_secs),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterSequenceString.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_groups_needing_self_update,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
