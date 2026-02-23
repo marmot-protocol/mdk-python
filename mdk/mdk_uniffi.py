@@ -496,6 +496,8 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_add_members() != 19089:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_clear_pending_commit() != 50626:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_group() != 56895:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event() != 46847:
@@ -879,6 +881,12 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_add_members.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_add_members.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_clear_pending_commit.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_clear_pending_commit.restype = None
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_group.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1079,6 +1087,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_accept_welcome_json.restype = c
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_add_members.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_add_members.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_clear_pending_commit.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_clear_pending_commit.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_group.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_group.restype = ctypes.c_uint16
@@ -2906,6 +2917,21 @@ class MdkProtocol(typing.Protocol):
         Add members to a group
 """
         raise NotImplementedError
+    def clear_pending_commit(self, mls_group_id: str) -> None:
+        """
+        Clear pending commit for a group
+
+        This rolls back the group to its pre-commit state — no epoch advance, no member changes.
+        Call this when publish exhausts retries to recover from failed relay publishes.
+
+        # Arguments
+        * `mls_group_id` - The MLS group ID to clear the pending commit for (hex-encoded)
+
+        # Returns
+        * `Ok(())` - if the pending commit was cleared successfully
+        * `Err` - if the group doesn't exist or another error occurs
+"""
+        raise NotImplementedError
     def create_group(self, creator_public_key: str,member_key_package_events_json: typing.List[str],name: str,description: str,relays: typing.List[str],admins: typing.List[str]) -> CreateGroupResult:
         """
         Create a new group
@@ -3168,6 +3194,34 @@ class Mdk(MdkProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_add_members,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def clear_pending_commit(self, mls_group_id: str) -> None:
+        """
+        Clear pending commit for a group
+
+        This rolls back the group to its pre-commit state — no epoch advance, no member changes.
+        Call this when publish exhausts retries to recover from failed relay publishes.
+
+        # Arguments
+        * `mls_group_id` - The MLS group ID to clear the pending commit for (hex-encoded)
+
+        # Returns
+        * `Ok(())` - if the pending commit was cleared successfully
+        * `Err` - if the group doesn't exist or another error occurs
+"""
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_clear_pending_commit,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
