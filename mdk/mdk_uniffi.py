@@ -2352,6 +2352,8 @@ class ProcessMessageResult:
         def __str__(self):
             return "ProcessMessageResult.APPLICATION_MESSAGE(message={})".format(self.message)
         def __eq__(self, other):
+            if not isinstance(other, ProcessMessageResult):
+                return NotImplemented
             if not other.is_APPLICATION_MESSAGE():
                 return False
             if self.message != other.message:
@@ -2380,6 +2382,8 @@ class ProcessMessageResult:
         def __str__(self):
             return "ProcessMessageResult.PROPOSAL(result={})".format(self.result)
         def __eq__(self, other):
+            if not isinstance(other, ProcessMessageResult):
+                return NotImplemented
             if not other.is_PROPOSAL():
                 return False
             if self.result != other.result:
@@ -2408,6 +2412,8 @@ class ProcessMessageResult:
         def __str__(self):
             return "ProcessMessageResult.PENDING_PROPOSAL(mls_group_id={})".format(self.mls_group_id)
         def __eq__(self, other):
+            if not isinstance(other, ProcessMessageResult):
+                return NotImplemented
             if not other.is_PENDING_PROPOSAL():
                 return False
             if self.mls_group_id != other.mls_group_id:
@@ -2436,6 +2442,8 @@ class ProcessMessageResult:
         def __str__(self):
             return "ProcessMessageResult.EXTERNAL_JOIN_PROPOSAL(mls_group_id={})".format(self.mls_group_id)
         def __eq__(self, other):
+            if not isinstance(other, ProcessMessageResult):
+                return NotImplemented
             if not other.is_EXTERNAL_JOIN_PROPOSAL():
                 return False
             if self.mls_group_id != other.mls_group_id:
@@ -2464,6 +2472,8 @@ class ProcessMessageResult:
         def __str__(self):
             return "ProcessMessageResult.COMMIT(mls_group_id={})".format(self.mls_group_id)
         def __eq__(self, other):
+            if not isinstance(other, ProcessMessageResult):
+                return NotImplemented
             if not other.is_COMMIT():
                 return False
             if self.mls_group_id != other.mls_group_id:
@@ -2492,6 +2502,8 @@ class ProcessMessageResult:
         def __str__(self):
             return "ProcessMessageResult.UNPROCESSABLE(mls_group_id={})".format(self.mls_group_id)
         def __eq__(self, other):
+            if not isinstance(other, ProcessMessageResult):
+                return NotImplemented
             if not other.is_UNPROCESSABLE():
                 return False
             if self.mls_group_id != other.mls_group_id:
@@ -2526,6 +2538,8 @@ class ProcessMessageResult:
         def __str__(self):
             return "ProcessMessageResult.IGNORED_PROPOSAL(mls_group_id={}, reason={})".format(self.mls_group_id, self.reason)
         def __eq__(self, other):
+            if not isinstance(other, ProcessMessageResult):
+                return NotImplemented
             if not other.is_IGNORED_PROPOSAL():
                 return False
             if self.mls_group_id != other.mls_group_id:
@@ -2554,6 +2568,8 @@ class ProcessMessageResult:
         def __str__(self):
             return "ProcessMessageResult.PREVIOUSLY_FAILED()".format()
         def __eq__(self, other):
+            if not isinstance(other, ProcessMessageResult):
+                return NotImplemented
             if not other.is_PREVIOUSLY_FAILED():
                 return False
             return True
@@ -3182,7 +3198,7 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
-        
+
         _UniffiFfiConverterSequenceString.check_lower(key_package_events_json)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3231,15 +3247,15 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(creator_public_key)
-        
+
         _UniffiFfiConverterSequenceString.check_lower(member_key_package_events_json)
-        
+
         _UniffiFfiConverterString.check_lower(name)
-        
+
         _UniffiFfiConverterString.check_lower(description)
-        
+
         _UniffiFfiConverterSequenceString.check_lower(relays)
-        
+
         _UniffiFfiConverterSequenceString.check_lower(admins)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3268,7 +3284,7 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(public_key)
-        
+
         _UniffiFfiConverterSequenceString.check_lower(relays)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3298,9 +3314,9 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(public_key)
-        
+
         _UniffiFfiConverterSequenceString.check_lower(relays)
-        
+
         _UniffiFfiConverterBoolean.check_lower(protected)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3322,13 +3338,13 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
-        
+
         _UniffiFfiConverterString.check_lower(sender_public_key)
-        
+
         _UniffiFfiConverterString.check_lower(content)
-        
+
         _UniffiFfiConverterUInt16.check_lower(kind)
-        
+
         _UniffiFfiConverterOptionalSequenceSequenceString.check_lower(tags)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3434,7 +3450,7 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
-        
+
         _UniffiFfiConverterString.check_lower(sort_order)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3482,7 +3498,7 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
-        
+
         _UniffiFfiConverterString.check_lower(event_id)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3514,11 +3530,11 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
-        
+
         _UniffiFfiConverterOptionalUInt32.check_lower(limit)
-        
+
         _UniffiFfiConverterOptionalUInt32.check_lower(offset)
-        
+
         _UniffiFfiConverterOptionalString.check_lower(sort_order)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3550,7 +3566,7 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterOptionalUInt32.check_lower(limit)
-        
+
         _UniffiFfiConverterOptionalUInt32.check_lower(offset)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3697,7 +3713,7 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(wrapper_event_id)
-        
+
         _UniffiFfiConverterString.check_lower(rumor_event_json)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3718,7 +3734,7 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
-        
+
         _UniffiFfiConverterSequenceString.check_lower(member_public_keys)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3775,7 +3791,7 @@ class Mdk(MdkProtocol):
 """
         
         _UniffiFfiConverterString.check_lower(mls_group_id)
-        
+
         _UniffiFfiConverterTypeGroupDataUpdate.check_lower(update)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
@@ -3863,11 +3879,11 @@ def decrypt_group_image(encrypted_data: bytes,expected_hash: typing.Optional[byt
 """
     
     _UniffiFfiConverterBytes.check_lower(encrypted_data)
-    
+
     _UniffiFfiConverterOptionalBytes.check_lower(expected_hash)
-    
+
     _UniffiFfiConverterBytes.check_lower(image_key)
-    
+
     _UniffiFfiConverterBytes.check_lower(image_nonce)
     _uniffi_lowered_args = (
         _UniffiFfiConverterBytes.lower(encrypted_data),
@@ -3889,7 +3905,7 @@ def derive_upload_keypair(image_key: bytes,version: int) -> str:
 """
     
     _UniffiFfiConverterBytes.check_lower(image_key)
-    
+
     _UniffiFfiConverterUInt16.check_lower(version)
     _uniffi_lowered_args = (
         _UniffiFfiConverterBytes.lower(image_key),
@@ -3937,11 +3953,11 @@ def new_mdk(db_path: str,service_id: str,db_key_id: str,config: typing.Optional[
 """
     
     _UniffiFfiConverterString.check_lower(db_path)
-    
+
     _UniffiFfiConverterString.check_lower(service_id)
-    
+
     _UniffiFfiConverterString.check_lower(db_key_id)
-    
+
     _UniffiFfiConverterOptionalTypeMdkConfig.check_lower(config)
     _uniffi_lowered_args = (
         _UniffiFfiConverterString.lower(db_path),
@@ -3974,7 +3990,7 @@ def new_mdk_unencrypted(db_path: str,config: typing.Optional[MdkConfig]) -> Mdk:
 """
     
     _UniffiFfiConverterString.check_lower(db_path)
-    
+
     _UniffiFfiConverterOptionalTypeMdkConfig.check_lower(config)
     _uniffi_lowered_args = (
         _UniffiFfiConverterString.lower(db_path),
@@ -4008,9 +4024,9 @@ def new_mdk_with_key(db_path: str,encryption_key: bytes,config: typing.Optional[
 """
     
     _UniffiFfiConverterString.check_lower(db_path)
-    
+
     _UniffiFfiConverterBytes.check_lower(encryption_key)
-    
+
     _UniffiFfiConverterOptionalTypeMdkConfig.check_lower(config)
     _uniffi_lowered_args = (
         _UniffiFfiConverterString.lower(db_path),
@@ -4031,7 +4047,7 @@ def prepare_group_image_for_upload(image_data: bytes,mime_type: str) -> GroupIma
 """
     
     _UniffiFfiConverterBytes.check_lower(image_data)
-    
+
     _UniffiFfiConverterString.check_lower(mime_type)
     _uniffi_lowered_args = (
         _UniffiFfiConverterBytes.lower(image_data),
