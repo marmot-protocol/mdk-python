@@ -1872,11 +1872,12 @@ class MdkConfig:
     message validation and MLS sender ratchet settings. All fields are optional
     and default to sensible values when not provided.
 """
-    def __init__(self, *, max_event_age_secs:typing.Optional[int], max_future_skew_secs:typing.Optional[int], out_of_order_tolerance:typing.Optional[int], maximum_forward_distance:typing.Optional[int], epoch_snapshot_retention:typing.Optional[int], snapshot_ttl_seconds:typing.Optional[int]):
+    def __init__(self, *, max_event_age_secs:typing.Optional[int], max_future_skew_secs:typing.Optional[int], out_of_order_tolerance:typing.Optional[int], maximum_forward_distance:typing.Optional[int], max_past_epochs:typing.Optional[int], epoch_snapshot_retention:typing.Optional[int], snapshot_ttl_seconds:typing.Optional[int]):
         self.max_event_age_secs = max_event_age_secs
         self.max_future_skew_secs = max_future_skew_secs
         self.out_of_order_tolerance = out_of_order_tolerance
         self.maximum_forward_distance = maximum_forward_distance
+        self.max_past_epochs = max_past_epochs
         self.epoch_snapshot_retention = epoch_snapshot_retention
         self.snapshot_ttl_seconds = snapshot_ttl_seconds
         
@@ -1884,7 +1885,7 @@ class MdkConfig:
 
     
     def __str__(self):
-        return "MdkConfig(max_event_age_secs={}, max_future_skew_secs={}, out_of_order_tolerance={}, maximum_forward_distance={}, epoch_snapshot_retention={}, snapshot_ttl_seconds={})".format(self.max_event_age_secs, self.max_future_skew_secs, self.out_of_order_tolerance, self.maximum_forward_distance, self.epoch_snapshot_retention, self.snapshot_ttl_seconds)
+        return "MdkConfig(max_event_age_secs={}, max_future_skew_secs={}, out_of_order_tolerance={}, maximum_forward_distance={}, max_past_epochs={}, epoch_snapshot_retention={}, snapshot_ttl_seconds={})".format(self.max_event_age_secs, self.max_future_skew_secs, self.out_of_order_tolerance, self.maximum_forward_distance, self.max_past_epochs, self.epoch_snapshot_retention, self.snapshot_ttl_seconds)
     def __eq__(self, other):
         if self.max_event_age_secs != other.max_event_age_secs:
             return False
@@ -1893,6 +1894,8 @@ class MdkConfig:
         if self.out_of_order_tolerance != other.out_of_order_tolerance:
             return False
         if self.maximum_forward_distance != other.maximum_forward_distance:
+            return False
+        if self.max_past_epochs != other.max_past_epochs:
             return False
         if self.epoch_snapshot_retention != other.epoch_snapshot_retention:
             return False
@@ -1908,6 +1911,7 @@ class _UniffiFfiConverterTypeMdkConfig(_UniffiConverterRustBuffer):
             max_future_skew_secs=_UniffiFfiConverterOptionalUInt64.read(buf),
             out_of_order_tolerance=_UniffiFfiConverterOptionalUInt32.read(buf),
             maximum_forward_distance=_UniffiFfiConverterOptionalUInt32.read(buf),
+            max_past_epochs=_UniffiFfiConverterOptionalUInt32.read(buf),
             epoch_snapshot_retention=_UniffiFfiConverterOptionalUInt32.read(buf),
             snapshot_ttl_seconds=_UniffiFfiConverterOptionalUInt64.read(buf),
         )
@@ -1918,6 +1922,7 @@ class _UniffiFfiConverterTypeMdkConfig(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalUInt64.check_lower(value.max_future_skew_secs)
         _UniffiFfiConverterOptionalUInt32.check_lower(value.out_of_order_tolerance)
         _UniffiFfiConverterOptionalUInt32.check_lower(value.maximum_forward_distance)
+        _UniffiFfiConverterOptionalUInt32.check_lower(value.max_past_epochs)
         _UniffiFfiConverterOptionalUInt32.check_lower(value.epoch_snapshot_retention)
         _UniffiFfiConverterOptionalUInt64.check_lower(value.snapshot_ttl_seconds)
 
@@ -1927,6 +1932,7 @@ class _UniffiFfiConverterTypeMdkConfig(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalUInt64.write(value.max_future_skew_secs, buf)
         _UniffiFfiConverterOptionalUInt32.write(value.out_of_order_tolerance, buf)
         _UniffiFfiConverterOptionalUInt32.write(value.maximum_forward_distance, buf)
+        _UniffiFfiConverterOptionalUInt32.write(value.max_past_epochs, buf)
         _UniffiFfiConverterOptionalUInt32.write(value.epoch_snapshot_retention, buf)
         _UniffiFfiConverterOptionalUInt64.write(value.snapshot_ttl_seconds, buf)
 
