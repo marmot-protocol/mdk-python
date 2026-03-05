@@ -504,11 +504,19 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event_with_options() != 59356:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_media_imeta_tag() != 4917:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_message() != 58601:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome() != 57917:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome_json() != 21478:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_decrypt_media_from_download() != 48593:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_encrypt_media_for_upload() != 41485:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_encrypt_media_for_upload_with_options() != 55124:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_group() != 1495:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -535,6 +543,8 @@ def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_merge_pending_commit() != 22201:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_parse_key_package() != 41870:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_parse_media_imeta_tag() != 60768:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_process_message() != 15589:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -913,6 +923,14 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event_with_opt
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event_with_options.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_media_imeta_tag.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_media_imeta_tag.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_message.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -935,6 +953,33 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome_json.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome_json.restype = None
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decrypt_media_from_download.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decrypt_media_from_download.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_encrypt_media_for_upload.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_encrypt_media_for_upload.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_encrypt_media_for_upload_with_options.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_encrypt_media_for_upload_with_options.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_group.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1018,6 +1063,13 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_parse_key_package.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_parse_key_package.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_parse_media_imeta_tag.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_parse_media_imeta_tag.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_process_message.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1099,6 +1151,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event.re
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event_with_options.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event_with_options.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_media_imeta_tag.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_media_imeta_tag.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_message.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_create_message.restype = ctypes.c_uint16
@@ -1108,6 +1163,15 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome.restype = ctype
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome_json.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decline_welcome_json.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decrypt_media_from_download.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_decrypt_media_from_download.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_encrypt_media_for_upload.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_encrypt_media_for_upload.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_encrypt_media_for_upload_with_options.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_encrypt_media_for_upload_with_options.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_group.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_group.restype = ctypes.c_uint16
@@ -1147,6 +1211,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_merge_pending_commit.restype = 
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_parse_key_package.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_parse_key_package.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_parse_media_imeta_tag.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_parse_media_imeta_tag.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_process_message.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_process_message.restype = ctypes.c_uint16
@@ -1487,6 +1554,157 @@ class _UniffiFfiConverterTypeCreateGroupResult(_UniffiConverterRustBuffer):
         _UniffiFfiConverterTypeGroup.write(value.group, buf)
         _UniffiFfiConverterSequenceString.write(value.welcome_rumors_json, buf)
 
+class _UniffiFfiConverterUInt32(_UniffiConverterPrimitiveInt):
+    CLASS_NAME = "u32"
+    VALUE_MIN = 0
+    VALUE_MAX = 2**32
+
+    @staticmethod
+    def read(buf):
+        return buf.read_u32()
+
+    @staticmethod
+    def write(value, buf):
+        buf.write_u32(value)
+
+class _UniffiFfiConverterSequenceUInt32(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        for item in value:
+            _UniffiFfiConverterUInt32.check_lower(item)
+
+    @classmethod
+    def write(cls, value, buf):
+        items = len(value)
+        buf.write_i32(items)
+        for item in value:
+            _UniffiFfiConverterUInt32.write(item, buf)
+
+    @classmethod
+    def read(cls, buf):
+        count = buf.read_i32()
+        if count < 0:
+            raise InternalError("Unexpected negative sequence length")
+
+        return [
+            _UniffiFfiConverterUInt32.read(buf) for i in range(count)
+        ]
+
+class _UniffiFfiConverterOptionalSequenceUInt32(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterSequenceUInt32.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterSequenceUInt32.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterSequenceUInt32.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+@dataclass
+class EncryptedMediaUploadResult:
+    """
+    Result of encrypting media for upload
+
+    Contains the encrypted bytes ready for upload to a Blossom server, along
+    with the metadata required to build the IMETA tag and later decrypt the file.
+"""
+    def __init__(self, *, encrypted_data:bytes, original_hash:bytes, encrypted_hash:bytes, mime_type:str, filename:str, original_size:int, encrypted_size:int, dimensions:typing.Optional[typing.List[int]], blurhash:typing.Optional[str], nonce:bytes):
+        self.encrypted_data = encrypted_data
+        self.original_hash = original_hash
+        self.encrypted_hash = encrypted_hash
+        self.mime_type = mime_type
+        self.filename = filename
+        self.original_size = original_size
+        self.encrypted_size = encrypted_size
+        self.dimensions = dimensions
+        self.blurhash = blurhash
+        self.nonce = nonce
+        
+        
+
+    
+    def __str__(self):
+        return "EncryptedMediaUploadResult(encrypted_data={}, original_hash={}, encrypted_hash={}, mime_type={}, filename={}, original_size={}, encrypted_size={}, dimensions={}, blurhash={}, nonce={})".format(self.encrypted_data, self.original_hash, self.encrypted_hash, self.mime_type, self.filename, self.original_size, self.encrypted_size, self.dimensions, self.blurhash, self.nonce)
+    def __eq__(self, other):
+        if self.encrypted_data != other.encrypted_data:
+            return False
+        if self.original_hash != other.original_hash:
+            return False
+        if self.encrypted_hash != other.encrypted_hash:
+            return False
+        if self.mime_type != other.mime_type:
+            return False
+        if self.filename != other.filename:
+            return False
+        if self.original_size != other.original_size:
+            return False
+        if self.encrypted_size != other.encrypted_size:
+            return False
+        if self.dimensions != other.dimensions:
+            return False
+        if self.blurhash != other.blurhash:
+            return False
+        if self.nonce != other.nonce:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeEncryptedMediaUploadResult(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return EncryptedMediaUploadResult(
+            encrypted_data=_UniffiFfiConverterBytes.read(buf),
+            original_hash=_UniffiFfiConverterBytes.read(buf),
+            encrypted_hash=_UniffiFfiConverterBytes.read(buf),
+            mime_type=_UniffiFfiConverterString.read(buf),
+            filename=_UniffiFfiConverterString.read(buf),
+            original_size=_UniffiFfiConverterUInt64.read(buf),
+            encrypted_size=_UniffiFfiConverterUInt64.read(buf),
+            dimensions=_UniffiFfiConverterOptionalSequenceUInt32.read(buf),
+            blurhash=_UniffiFfiConverterOptionalString.read(buf),
+            nonce=_UniffiFfiConverterBytes.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterBytes.check_lower(value.encrypted_data)
+        _UniffiFfiConverterBytes.check_lower(value.original_hash)
+        _UniffiFfiConverterBytes.check_lower(value.encrypted_hash)
+        _UniffiFfiConverterString.check_lower(value.mime_type)
+        _UniffiFfiConverterString.check_lower(value.filename)
+        _UniffiFfiConverterUInt64.check_lower(value.original_size)
+        _UniffiFfiConverterUInt64.check_lower(value.encrypted_size)
+        _UniffiFfiConverterOptionalSequenceUInt32.check_lower(value.dimensions)
+        _UniffiFfiConverterOptionalString.check_lower(value.blurhash)
+        _UniffiFfiConverterBytes.check_lower(value.nonce)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterBytes.write(value.encrypted_data, buf)
+        _UniffiFfiConverterBytes.write(value.original_hash, buf)
+        _UniffiFfiConverterBytes.write(value.encrypted_hash, buf)
+        _UniffiFfiConverterString.write(value.mime_type, buf)
+        _UniffiFfiConverterString.write(value.filename, buf)
+        _UniffiFfiConverterUInt64.write(value.original_size, buf)
+        _UniffiFfiConverterUInt64.write(value.encrypted_size, buf)
+        _UniffiFfiConverterOptionalSequenceUInt32.write(value.dimensions, buf)
+        _UniffiFfiConverterOptionalString.write(value.blurhash, buf)
+        _UniffiFfiConverterBytes.write(value.nonce, buf)
+
 class _UniffiFfiConverterOptionalOptionalBytes(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -1605,19 +1823,6 @@ class _UniffiFfiConverterTypeGroupDataUpdate(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalOptionalBytes.write(value.image_nonce, buf)
         _UniffiFfiConverterOptionalSequenceString.write(value.relays, buf)
         _UniffiFfiConverterOptionalSequenceString.write(value.admins, buf)
-
-class _UniffiFfiConverterUInt32(_UniffiConverterPrimitiveInt):
-    CLASS_NAME = "u32"
-    VALUE_MIN = 0
-    VALUE_MAX = 2**32
-
-    @staticmethod
-    def read(buf):
-        return buf.read_u32()
-
-    @staticmethod
-    def write(value, buf):
-        buf.write_u32(value)
 
 @dataclass
 class ImageDimensions:
@@ -1935,6 +2140,188 @@ class _UniffiFfiConverterTypeMdkConfig(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalUInt32.write(value.max_past_epochs, buf)
         _UniffiFfiConverterOptionalUInt32.write(value.epoch_snapshot_retention, buf)
         _UniffiFfiConverterOptionalUInt64.write(value.snapshot_ttl_seconds, buf)
+
+class _UniffiFfiConverterBoolean:
+    @classmethod
+    def check_lower(cls, value):
+        return not not value
+
+    @classmethod
+    def lower(cls, value):
+        return 1 if value else 0
+
+    @staticmethod
+    def lift(value):
+        return value != 0
+
+    @classmethod
+    def read(cls, buf):
+        return cls.lift(buf.read_u8())
+
+    @classmethod
+    def write(cls, value, buf):
+        buf.write_u8(value)
+
+class _UniffiFfiConverterOptionalBoolean(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterBoolean.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterBoolean.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterBoolean.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+@dataclass
+class MediaProcessingOptionsInput:
+    """
+    Options for controlling media processing during encryption
+
+    `max_dimension`, `max_file_size`, and `max_filename_length` are optional and
+    fall back to sensible, privacy-first defaults when `None`.
+    `sanitize_exif` and `generate_blurhash` are explicit toggles; pass `None` to
+    accept the privacy-first defaults (`true` for both).
+    To use all defaults without constructing this struct, call
+    `encrypt_media_for_upload`.
+"""
+    def __init__(self, *, sanitize_exif:typing.Optional[bool], generate_blurhash:typing.Optional[bool], max_dimension:typing.Optional[int], max_file_size:typing.Optional[int], max_filename_length:typing.Optional[int]):
+        self.sanitize_exif = sanitize_exif
+        self.generate_blurhash = generate_blurhash
+        self.max_dimension = max_dimension
+        self.max_file_size = max_file_size
+        self.max_filename_length = max_filename_length
+        
+        
+
+    
+    def __str__(self):
+        return "MediaProcessingOptionsInput(sanitize_exif={}, generate_blurhash={}, max_dimension={}, max_file_size={}, max_filename_length={})".format(self.sanitize_exif, self.generate_blurhash, self.max_dimension, self.max_file_size, self.max_filename_length)
+    def __eq__(self, other):
+        if self.sanitize_exif != other.sanitize_exif:
+            return False
+        if self.generate_blurhash != other.generate_blurhash:
+            return False
+        if self.max_dimension != other.max_dimension:
+            return False
+        if self.max_file_size != other.max_file_size:
+            return False
+        if self.max_filename_length != other.max_filename_length:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeMediaProcessingOptionsInput(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return MediaProcessingOptionsInput(
+            sanitize_exif=_UniffiFfiConverterOptionalBoolean.read(buf),
+            generate_blurhash=_UniffiFfiConverterOptionalBoolean.read(buf),
+            max_dimension=_UniffiFfiConverterOptionalUInt32.read(buf),
+            max_file_size=_UniffiFfiConverterOptionalUInt64.read(buf),
+            max_filename_length=_UniffiFfiConverterOptionalUInt64.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalBoolean.check_lower(value.sanitize_exif)
+        _UniffiFfiConverterOptionalBoolean.check_lower(value.generate_blurhash)
+        _UniffiFfiConverterOptionalUInt32.check_lower(value.max_dimension)
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.max_file_size)
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.max_filename_length)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalBoolean.write(value.sanitize_exif, buf)
+        _UniffiFfiConverterOptionalBoolean.write(value.generate_blurhash, buf)
+        _UniffiFfiConverterOptionalUInt32.write(value.max_dimension, buf)
+        _UniffiFfiConverterOptionalUInt64.write(value.max_file_size, buf)
+        _UniffiFfiConverterOptionalUInt64.write(value.max_filename_length, buf)
+
+@dataclass
+class MediaReferenceRecord:
+    """
+    A reference to an encrypted media file stored on a Blossom server
+
+    This is parsed from an IMETA tag (via `parse_media_imeta_tag`) and passed
+    to `decrypt_media_from_download` to retrieve the original file.
+"""
+    def __init__(self, *, url:str, original_hash:bytes, mime_type:str, filename:str, dimensions:typing.Optional[typing.List[int]], scheme_version:str, nonce:bytes):
+        self.url = url
+        self.original_hash = original_hash
+        self.mime_type = mime_type
+        self.filename = filename
+        self.dimensions = dimensions
+        self.scheme_version = scheme_version
+        self.nonce = nonce
+        
+        
+
+    
+    def __str__(self):
+        return "MediaReferenceRecord(url={}, original_hash={}, mime_type={}, filename={}, dimensions={}, scheme_version={}, nonce={})".format(self.url, self.original_hash, self.mime_type, self.filename, self.dimensions, self.scheme_version, self.nonce)
+    def __eq__(self, other):
+        if self.url != other.url:
+            return False
+        if self.original_hash != other.original_hash:
+            return False
+        if self.mime_type != other.mime_type:
+            return False
+        if self.filename != other.filename:
+            return False
+        if self.dimensions != other.dimensions:
+            return False
+        if self.scheme_version != other.scheme_version:
+            return False
+        if self.nonce != other.nonce:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeMediaReferenceRecord(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return MediaReferenceRecord(
+            url=_UniffiFfiConverterString.read(buf),
+            original_hash=_UniffiFfiConverterBytes.read(buf),
+            mime_type=_UniffiFfiConverterString.read(buf),
+            filename=_UniffiFfiConverterString.read(buf),
+            dimensions=_UniffiFfiConverterOptionalSequenceUInt32.read(buf),
+            scheme_version=_UniffiFfiConverterString.read(buf),
+            nonce=_UniffiFfiConverterBytes.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterString.check_lower(value.url)
+        _UniffiFfiConverterBytes.check_lower(value.original_hash)
+        _UniffiFfiConverterString.check_lower(value.mime_type)
+        _UniffiFfiConverterString.check_lower(value.filename)
+        _UniffiFfiConverterOptionalSequenceUInt32.check_lower(value.dimensions)
+        _UniffiFfiConverterString.check_lower(value.scheme_version)
+        _UniffiFfiConverterBytes.check_lower(value.nonce)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterString.write(value.url, buf)
+        _UniffiFfiConverterBytes.write(value.original_hash, buf)
+        _UniffiFfiConverterString.write(value.mime_type, buf)
+        _UniffiFfiConverterString.write(value.filename, buf)
+        _UniffiFfiConverterOptionalSequenceUInt32.write(value.dimensions, buf)
+        _UniffiFfiConverterString.write(value.scheme_version, buf)
+        _UniffiFfiConverterBytes.write(value.nonce, buf)
 
 class _UniffiFfiConverterUInt16(_UniffiConverterPrimitiveInt):
     CLASS_NAME = "u16"
@@ -2728,27 +3115,6 @@ class _UniffiFfiConverterTypeProcessMessageResult(_UniffiConverterRustBuffer):
 
 
 
-class _UniffiFfiConverterBoolean:
-    @classmethod
-    def check_lower(cls, value):
-        return not not value
-
-    @classmethod
-    def lower(cls, value):
-        return 1 if value else 0
-
-    @staticmethod
-    def lift(value):
-        return value != 0
-
-    @classmethod
-    def read(cls, buf):
-        return cls.lift(buf.read_u8())
-
-    @classmethod
-    def write(cls, value, buf):
-        buf.write_u8(value)
-
 class _UniffiFfiConverterOptionalSequenceSequenceString(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -2982,6 +3348,22 @@ class MdkProtocol(typing.Protocol):
         compatibility.
 """
         raise NotImplementedError
+    def create_media_imeta_tag(self, mls_group_id: str,upload: EncryptedMediaUploadResult,uploaded_url: str) -> typing.List[typing.List[str]]:
+        """
+        Build an IMETA tag for an encrypted media upload
+
+        Creates the IMETA Nostr tag per the MIP-04 specification. Attach this tag
+        to the group message event after uploading the encrypted bytes to Blossom.
+
+        Returns the tag as a `Vec<Vec<String>>` (the standard UniFFI tag format).
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `upload` - The result returned by `encrypt_media_for_upload`
+        * `uploaded_url` - The URL returned by the Blossom server after upload
+"""
+        raise NotImplementedError
     def create_message(self, mls_group_id: str,sender_public_key: str,content: str,kind: int,tags: typing.Optional[typing.List[typing.List[str]]]) -> str:
         """
         Create a message in a group
@@ -2995,6 +3377,61 @@ class MdkProtocol(typing.Protocol):
     def decline_welcome_json(self, welcome_json: str) -> None:
         """
         Decline a welcome message from JSON
+"""
+        raise NotImplementedError
+    def decrypt_media_from_download(self, mls_group_id: str,encrypted_data: bytes,reference: MediaReferenceRecord) -> bytes:
+        """
+        Decrypt media downloaded from a Blossom server
+
+        Decrypts the encrypted bytes using the key derived from the group's MLS
+        epoch that was active when the file was encrypted (looked up automatically
+        via the epoch hint stored alongside the message). Falls back to the current
+        epoch if no hint is available.
+
+        The `reference` parameter is typically obtained by calling
+        `parse_media_imeta_tag` on the IMETA tag attached to the message.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `encrypted_data` - Encrypted bytes downloaded from the Blossom server
+        * `reference` - Parsed media reference (from `parse_media_imeta_tag`)
+"""
+        raise NotImplementedError
+    def encrypt_media_for_upload(self, mls_group_id: str,data: bytes,mime_type: str,filename: str) -> EncryptedMediaUploadResult:
+        """
+        Encrypt media for upload using default processing options
+
+        Encrypts the supplied media file with the group's current MLS epoch key,
+        producing ciphertext ready to upload to a Blossom server. Images are
+        automatically EXIF-sanitized and a blurhash preview is generated.
+
+        After uploading the encrypted bytes, call `create_media_imeta_tag` with
+        the returned result and the Blossom URL to build the IMETA tag to attach
+        to the group message.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `data` - Raw media file bytes
+        * `mime_type` - MIME type of the media (e.g. `"image/jpeg"`)
+        * `filename` - Original filename (used as AAD in the encryption)
+"""
+        raise NotImplementedError
+    def encrypt_media_for_upload_with_options(self, mls_group_id: str,data: bytes,mime_type: str,filename: str,options: MediaProcessingOptionsInput) -> EncryptedMediaUploadResult:
+        """
+        Encrypt media for upload with custom processing options
+
+        Same as `encrypt_media_for_upload` but lets you override EXIF sanitization,
+        blurhash generation, and size/dimension limits.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `data` - Raw media file bytes
+        * `mime_type` - MIME type of the media (e.g. `"image/jpeg"`)
+        * `filename` - Original filename (used as AAD in the encryption)
+        * `options` - Custom processing options
 """
         raise NotImplementedError
     def get_group(self, mls_group_id: str) -> typing.Optional[Group]:
@@ -3102,6 +3539,24 @@ class MdkProtocol(typing.Protocol):
     def parse_key_package(self, event_json: str) -> str:
         """
         Parse a key package from a Nostr event
+"""
+        raise NotImplementedError
+    def parse_media_imeta_tag(self, mls_group_id: str,imeta_tag: typing.List[typing.List[str]]) -> MediaReferenceRecord:
+        """
+        Parse an IMETA tag into a `MediaReferenceRecord` for decryption
+
+        Validates and decodes the IMETA tag fields according to the MIP-04
+        specification. The returned record can be passed directly to
+        `decrypt_media_from_download`.
+
+        The tag must be provided as a single-element `Vec<Vec<String>>` — the
+        same format returned by `create_media_imeta_tag` and the standard UniFFI
+        tag wire format.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `imeta_tag` - IMETA tag as `Vec<Vec<String>>`
 """
         raise NotImplementedError
     def process_message(self, event_json: str) -> ProcessMessageResult:
@@ -3338,6 +3793,41 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def create_media_imeta_tag(self, mls_group_id: str,upload: EncryptedMediaUploadResult,uploaded_url: str) -> typing.List[typing.List[str]]:
+        """
+        Build an IMETA tag for an encrypted media upload
+
+        Creates the IMETA Nostr tag per the MIP-04 specification. Attach this tag
+        to the group message event after uploading the encrypted bytes to Blossom.
+
+        Returns the tag as a `Vec<Vec<String>>` (the standard UniFFI tag format).
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `upload` - The result returned by `encrypt_media_for_upload`
+        * `uploaded_url` - The URL returned by the Blossom server after upload
+"""
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
+
+        _UniffiFfiConverterTypeEncryptedMediaUploadResult.check_lower(upload)
+
+        _UniffiFfiConverterString.check_lower(uploaded_url)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
+            _UniffiFfiConverterTypeEncryptedMediaUploadResult.lower(upload),
+            _UniffiFfiConverterString.lower(uploaded_url),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterSequenceSequenceString.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_media_imeta_tag,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
     def create_message(self, mls_group_id: str,sender_public_key: str,content: str,kind: int,tags: typing.Optional[typing.List[typing.List[str]]]) -> str:
         """
         Create a message in a group
@@ -3401,6 +3891,127 @@ class Mdk(MdkProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decline_welcome_json,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def decrypt_media_from_download(self, mls_group_id: str,encrypted_data: bytes,reference: MediaReferenceRecord) -> bytes:
+        """
+        Decrypt media downloaded from a Blossom server
+
+        Decrypts the encrypted bytes using the key derived from the group's MLS
+        epoch that was active when the file was encrypted (looked up automatically
+        via the epoch hint stored alongside the message). Falls back to the current
+        epoch if no hint is available.
+
+        The `reference` parameter is typically obtained by calling
+        `parse_media_imeta_tag` on the IMETA tag attached to the message.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `encrypted_data` - Encrypted bytes downloaded from the Blossom server
+        * `reference` - Parsed media reference (from `parse_media_imeta_tag`)
+"""
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
+
+        _UniffiFfiConverterBytes.check_lower(encrypted_data)
+
+        _UniffiFfiConverterTypeMediaReferenceRecord.check_lower(reference)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
+            _UniffiFfiConverterBytes.lower(encrypted_data),
+            _UniffiFfiConverterTypeMediaReferenceRecord.lower(reference),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterBytes.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_decrypt_media_from_download,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def encrypt_media_for_upload(self, mls_group_id: str,data: bytes,mime_type: str,filename: str) -> EncryptedMediaUploadResult:
+        """
+        Encrypt media for upload using default processing options
+
+        Encrypts the supplied media file with the group's current MLS epoch key,
+        producing ciphertext ready to upload to a Blossom server. Images are
+        automatically EXIF-sanitized and a blurhash preview is generated.
+
+        After uploading the encrypted bytes, call `create_media_imeta_tag` with
+        the returned result and the Blossom URL to build the IMETA tag to attach
+        to the group message.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `data` - Raw media file bytes
+        * `mime_type` - MIME type of the media (e.g. `"image/jpeg"`)
+        * `filename` - Original filename (used as AAD in the encryption)
+"""
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
+
+        _UniffiFfiConverterBytes.check_lower(data)
+
+        _UniffiFfiConverterString.check_lower(mime_type)
+
+        _UniffiFfiConverterString.check_lower(filename)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
+            _UniffiFfiConverterBytes.lower(data),
+            _UniffiFfiConverterString.lower(mime_type),
+            _UniffiFfiConverterString.lower(filename),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterTypeEncryptedMediaUploadResult.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_encrypt_media_for_upload,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def encrypt_media_for_upload_with_options(self, mls_group_id: str,data: bytes,mime_type: str,filename: str,options: MediaProcessingOptionsInput) -> EncryptedMediaUploadResult:
+        """
+        Encrypt media for upload with custom processing options
+
+        Same as `encrypt_media_for_upload` but lets you override EXIF sanitization,
+        blurhash generation, and size/dimension limits.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `data` - Raw media file bytes
+        * `mime_type` - MIME type of the media (e.g. `"image/jpeg"`)
+        * `filename` - Original filename (used as AAD in the encryption)
+        * `options` - Custom processing options
+"""
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
+
+        _UniffiFfiConverterBytes.check_lower(data)
+
+        _UniffiFfiConverterString.check_lower(mime_type)
+
+        _UniffiFfiConverterString.check_lower(filename)
+
+        _UniffiFfiConverterTypeMediaProcessingOptionsInput.check_lower(options)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
+            _UniffiFfiConverterBytes.lower(data),
+            _UniffiFfiConverterString.lower(mime_type),
+            _UniffiFfiConverterString.lower(filename),
+            _UniffiFfiConverterTypeMediaProcessingOptionsInput.lower(options),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterTypeEncryptedMediaUploadResult.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_encrypt_media_for_upload_with_options,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
@@ -3692,6 +4303,40 @@ class Mdk(MdkProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_parse_key_package,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def parse_media_imeta_tag(self, mls_group_id: str,imeta_tag: typing.List[typing.List[str]]) -> MediaReferenceRecord:
+        """
+        Parse an IMETA tag into a `MediaReferenceRecord` for decryption
+
+        Validates and decodes the IMETA tag fields according to the MIP-04
+        specification. The returned record can be passed directly to
+        `decrypt_media_from_download`.
+
+        The tag must be provided as a single-element `Vec<Vec<String>>` — the
+        same format returned by `create_media_imeta_tag` and the standard UniFFI
+        tag wire format.
+
+        # Arguments
+
+        * `mls_group_id` - Hex-encoded MLS group ID
+        * `imeta_tag` - IMETA tag as `Vec<Vec<String>>`
+"""
+        
+        _UniffiFfiConverterString.check_lower(mls_group_id)
+
+        _UniffiFfiConverterSequenceSequenceString.check_lower(imeta_tag)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(mls_group_id),
+            _UniffiFfiConverterSequenceSequenceString.lower(imeta_tag),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterTypeMediaReferenceRecord.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_parse_media_imeta_tag,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
@@ -4074,11 +4719,14 @@ __all__ = [
     "ProcessMessageResult",
     "Group",
     "CreateGroupResult",
+    "EncryptedMediaUploadResult",
     "GroupDataUpdate",
     "ImageDimensions",
     "GroupImageUpload",
     "KeyPackageResult",
     "MdkConfig",
+    "MediaProcessingOptionsInput",
+    "MediaReferenceRecord",
     "Message",
     "UpdateGroupResult",
     "Welcome",
