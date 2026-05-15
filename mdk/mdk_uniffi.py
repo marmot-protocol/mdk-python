@@ -504,7 +504,7 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event() != 46847:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event_with_options() != 59356:
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event_with_options() != 22774:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_media_imeta_tag() != 4917:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -548,7 +548,11 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome() != 25012:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_group_capability_upgrade_status() != 56220:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_group_leaf_map() != 58304:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_group_member_capabilities() != 43344:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_group_required_proposals() != 24118:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -585,6 +589,8 @@ def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_sync_group_metadata_from_mls() != 16922:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_update_group_data() != 32068:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_upgrade_group_capabilities() != 21210:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
 
 # A ctypes library to expose the extern-C FFI definitions.
@@ -952,7 +958,7 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event_with_opt
     ctypes.c_uint64,
     _UniffiRustBuffer,
     _UniffiRustBuffer,
-    ctypes.c_int8,
+    _UniffiRustBuffer,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_key_package_for_event_with_options.restype = _UniffiRustBuffer
@@ -1103,12 +1109,24 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_welcome.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_get_welcome.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_capability_upgrade_status.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_capability_upgrade_status.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_leaf_map.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_leaf_map.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_member_capabilities.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_member_capabilities.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_required_proposals.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1221,6 +1239,13 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_update_group_data.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_update_group_data.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_upgrade_group_capabilities.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_upgrade_group_capabilities.restype = _UniffiRustBuffer
 _UniffiLib.ffi_mdk_uniffi_uniffi_contract_version.argtypes = (
 )
 _UniffiLib.ffi_mdk_uniffi_uniffi_contract_version.restype = ctypes.c_uint32
@@ -1329,9 +1354,15 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_relays.restype = ctypes.c_u
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_get_welcome.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_group_capability_upgrade_status.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_group_capability_upgrade_status.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_group_leaf_map.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_group_leaf_map.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_group_member_capabilities.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_group_member_capabilities.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_group_required_proposals.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_group_required_proposals.restype = ctypes.c_uint16
@@ -1386,6 +1417,9 @@ _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_sync_group_metadata_from_mls.re
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_update_group_data.argtypes = (
 )
 _UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_update_group_data.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_upgrade_group_capabilities.argtypes = (
+)
+_UniffiLib.uniffi_mdk_uniffi_checksum_method_mdk_upgrade_group_capabilities.restype = ctypes.c_uint16
 
 _uniffi_check_contract_api_version(_UniffiLib)
 # _uniffi_check_api_checksums(_UniffiLib)
@@ -2141,6 +2175,76 @@ class _UniffiFfiConverterTypeGroupImageUpload(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalString.write(value.blurhash, buf)
         _UniffiFfiConverterOptionalString.write(value.thumbhash, buf)
 
+class _UniffiFfiConverterBoolean:
+    @classmethod
+    def check_lower(cls, value):
+        return not not value
+
+    @classmethod
+    def lower(cls, value):
+        return 1 if value else 0
+
+    @staticmethod
+    def lift(value):
+        return value != 0
+
+    @classmethod
+    def read(cls, buf):
+        return cls.lift(buf.read_u8())
+
+    @classmethod
+    def write(cls, value, buf):
+        buf.write_u8(value)
+
+@dataclass
+class KeyPackageOptions:
+    """
+    Options for creating a key package event.
+
+    Mirrors `mdk_core::key_packages::KeyPackageOptions`. Both fields carry FFI-level
+    defaults via `#[uniffi(default = ...)]`, so foreign callers (Kotlin / Swift /
+    Python) can omit either or both for the standard behavior — e.g. in Kotlin,
+    `KeyPackageOptions()` is equivalent to
+    `KeyPackageOptions(protected = false, existingDTag = null)`. Or skip options
+    entirely by calling `create_key_package_for_event` instead.
+"""
+    def __init__(self, *, protected:bool = False, existing_d_tag:typing.Optional[str] = _DEFAULT):
+        self.protected = protected
+        if existing_d_tag is _DEFAULT:
+            self.existing_d_tag = None
+        else:
+            self.existing_d_tag = existing_d_tag
+        
+        
+
+    
+    def __str__(self):
+        return "KeyPackageOptions(protected={}, existing_d_tag={})".format(self.protected, self.existing_d_tag)
+    def __eq__(self, other):
+        if self.protected != other.protected:
+            return False
+        if self.existing_d_tag != other.existing_d_tag:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeKeyPackageOptions(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return KeyPackageOptions(
+            protected=_UniffiFfiConverterBoolean.read(buf),
+            existing_d_tag=_UniffiFfiConverterOptionalString.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterBoolean.check_lower(value.protected)
+        _UniffiFfiConverterOptionalString.check_lower(value.existing_d_tag)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterBoolean.write(value.protected, buf)
+        _UniffiFfiConverterOptionalString.write(value.existing_d_tag, buf)
+
 class _UniffiFfiConverterSequenceSequenceString(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -2260,6 +2364,313 @@ class _UniffiFfiConverterTypeLeafMapEntry(_UniffiConverterRustBuffer):
         _UniffiFfiConverterUInt32.write(value.leaf_index, buf)
         _UniffiFfiConverterString.write(value.public_key, buf)
 
+
+
+
+
+
+class MdkProposalType(enum.Enum):
+    """
+    Uniffi-friendly mirror of `openmls::prelude::ProposalType`.
+
+    Exists because uniffi cannot express a foreign-crate enum directly.
+    Kept minimal: mobile consumers today only branch on whether
+    `SelfRemove` is present; anything else collapses to `Unknown`.
+    If that changes — e.g. a future MIP makes another proposal type
+    observable to UIs — add a variant here and a matching arm in the
+    `From` impl below.
+"""
+    
+    SELF_REMOVE = 0
+    """
+    Member-initiated voluntary departure (MLS Extensions draft,
+    `0x000a`). When a group's required-capabilities set contains
+    `SelfRemove`, non-admin members can leave without an admin commit.
+"""
+    
+    UNKNOWN = 1
+    """
+    Any proposal type the mobile API does not distinguish today.
+"""
+    
+
+
+class _UniffiFfiConverterTypeMdkProposalType(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return MdkProposalType.SELF_REMOVE
+        if variant == 2:
+            return MdkProposalType.UNKNOWN
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if value == MdkProposalType.SELF_REMOVE:
+            return
+        if value == MdkProposalType.UNKNOWN:
+            return
+        raise ValueError(value)
+
+    @staticmethod
+    def write(value, buf):
+        if value == MdkProposalType.SELF_REMOVE:
+            buf.write_i32(1)
+        if value == MdkProposalType.UNKNOWN:
+            buf.write_i32(2)
+
+
+
+
+
+
+
+
+class MdkProposalUpgradability:
+    """
+    UniFFI-friendly upgrade readiness for a proposal type.
+"""
+    def __init__(self):
+        raise RuntimeError("MdkProposalUpgradability cannot be instantiated directly")
+
+    # Each enum variant is a nested class of the enum itself.
+    @dataclass
+    class ALREADY_REQUIRED:
+        """
+        The proposal type is already required by the group.
+"""
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "MdkProposalUpgradability.ALREADY_REQUIRED()".format()
+        def __eq__(self, other):
+            if not isinstance(other, MdkProposalUpgradability):
+                return NotImplemented
+            if not other.is_ALREADY_REQUIRED():
+                return False
+            return True
+
+    @dataclass
+    class AVAILABLE:
+        """
+        Every current member advertises this proposal type, so an admin may upgrade it.
+"""
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "MdkProposalUpgradability.AVAILABLE()".format()
+        def __eq__(self, other):
+            if not isinstance(other, MdkProposalUpgradability):
+                return NotImplemented
+            if not other.is_AVAILABLE():
+                return False
+            return True
+
+    @dataclass
+    class BLOCKED:
+        """
+        One or more members do not advertise this proposal type.
+"""
+        
+        def __init__(self, blockers:typing.List[str]):
+            self.blockers = blockers
+            
+            """
+        Hex-encoded public keys of members blocking this upgrade.
+"""
+        
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "MdkProposalUpgradability.BLOCKED(blockers={})".format(self.blockers)
+        def __eq__(self, other):
+            if not isinstance(other, MdkProposalUpgradability):
+                return NotImplemented
+            if not other.is_BLOCKED():
+                return False
+            if self.blockers != other.blockers:
+                return False
+            return True
+
+    
+
+    # For each variant, we have `is_NAME` and `is_name` methods for easily checking
+    # whether an instance is that variant.
+    def is_ALREADY_REQUIRED(self) -> bool:
+        return isinstance(self, MdkProposalUpgradability.ALREADY_REQUIRED)
+    def is_already_required(self) -> bool:
+        return isinstance(self, MdkProposalUpgradability.ALREADY_REQUIRED)
+    def is_AVAILABLE(self) -> bool:
+        return isinstance(self, MdkProposalUpgradability.AVAILABLE)
+    def is_available(self) -> bool:
+        return isinstance(self, MdkProposalUpgradability.AVAILABLE)
+    def is_BLOCKED(self) -> bool:
+        return isinstance(self, MdkProposalUpgradability.BLOCKED)
+    def is_blocked(self) -> bool:
+        return isinstance(self, MdkProposalUpgradability.BLOCKED)
+    
+
+# Now, a little trick - we make each nested variant class be a subclass of the main
+# enum class, so that method calls and instance checks etc will work intuitively.
+# We might be able to do this a little more neatly with a metaclass, but this'll do.
+MdkProposalUpgradability.ALREADY_REQUIRED = type("MdkProposalUpgradability.ALREADY_REQUIRED", (MdkProposalUpgradability.ALREADY_REQUIRED, MdkProposalUpgradability,), {})  # type: ignore
+MdkProposalUpgradability.AVAILABLE = type("MdkProposalUpgradability.AVAILABLE", (MdkProposalUpgradability.AVAILABLE, MdkProposalUpgradability,), {})  # type: ignore
+MdkProposalUpgradability.BLOCKED = type("MdkProposalUpgradability.BLOCKED", (MdkProposalUpgradability.BLOCKED, MdkProposalUpgradability,), {})  # type: ignore
+
+
+
+
+class _UniffiFfiConverterTypeMdkProposalUpgradability(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return MdkProposalUpgradability.ALREADY_REQUIRED(
+            )
+        if variant == 2:
+            return MdkProposalUpgradability.AVAILABLE(
+            )
+        if variant == 3:
+            return MdkProposalUpgradability.BLOCKED(
+                _UniffiFfiConverterSequenceString.read(buf),
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if value.is_ALREADY_REQUIRED():
+            return
+        if value.is_AVAILABLE():
+            return
+        if value.is_BLOCKED():
+            _UniffiFfiConverterSequenceString.check_lower(value.blockers)
+            return
+        raise ValueError(value)
+
+    @staticmethod
+    def write(value, buf):
+        if value.is_ALREADY_REQUIRED():
+            buf.write_i32(1)
+        if value.is_AVAILABLE():
+            buf.write_i32(2)
+        if value.is_BLOCKED():
+            buf.write_i32(3)
+            _UniffiFfiConverterSequenceString.write(value.blockers, buf)
+
+
+
+@dataclass
+class MdkProposalUpgradeStatus:
+    """
+    Upgrade readiness for one proposal type.
+"""
+    def __init__(self, *, proposal:MdkProposalType, upgradability:MdkProposalUpgradability):
+        self.proposal = proposal
+        self.upgradability = upgradability
+        
+        
+
+    
+    def __str__(self):
+        return "MdkProposalUpgradeStatus(proposal={}, upgradability={})".format(self.proposal, self.upgradability)
+    def __eq__(self, other):
+        if self.proposal != other.proposal:
+            return False
+        if self.upgradability != other.upgradability:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeMdkProposalUpgradeStatus(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return MdkProposalUpgradeStatus(
+            proposal=_UniffiFfiConverterTypeMdkProposalType.read(buf),
+            upgradability=_UniffiFfiConverterTypeMdkProposalUpgradability.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterTypeMdkProposalType.check_lower(value.proposal)
+        _UniffiFfiConverterTypeMdkProposalUpgradability.check_lower(value.upgradability)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterTypeMdkProposalType.write(value.proposal, buf)
+        _UniffiFfiConverterTypeMdkProposalUpgradability.write(value.upgradability, buf)
+
+class _UniffiFfiConverterSequenceTypeMdkProposalUpgradeStatus(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        for item in value:
+            _UniffiFfiConverterTypeMdkProposalUpgradeStatus.check_lower(item)
+
+    @classmethod
+    def write(cls, value, buf):
+        items = len(value)
+        buf.write_i32(items)
+        for item in value:
+            _UniffiFfiConverterTypeMdkProposalUpgradeStatus.write(item, buf)
+
+    @classmethod
+    def read(cls, buf):
+        count = buf.read_i32()
+        if count < 0:
+            raise InternalError("Unexpected negative sequence length")
+
+        return [
+            _UniffiFfiConverterTypeMdkProposalUpgradeStatus.read(buf) for i in range(count)
+        ]
+
+@dataclass
+class MdkCapabilityUpgradeStatus:
+    """
+    Per-proposal capability upgrade readiness for a group.
+"""
+    def __init__(self, *, per_proposal:typing.List[MdkProposalUpgradeStatus]):
+        self.per_proposal = per_proposal
+        
+        
+
+    
+    def __str__(self):
+        return "MdkCapabilityUpgradeStatus(per_proposal={})".format(self.per_proposal)
+    def __eq__(self, other):
+        if self.per_proposal != other.per_proposal:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeMdkCapabilityUpgradeStatus(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return MdkCapabilityUpgradeStatus(
+            per_proposal=_UniffiFfiConverterSequenceTypeMdkProposalUpgradeStatus.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterSequenceTypeMdkProposalUpgradeStatus.check_lower(value.per_proposal)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterSequenceTypeMdkProposalUpgradeStatus.write(value.per_proposal, buf)
+
 class _UniffiFfiConverterOptionalUInt32(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -2358,26 +2769,121 @@ class _UniffiFfiConverterTypeMdkConfig(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalUInt32.write(value.epoch_snapshot_retention, buf)
         _UniffiFfiConverterOptionalUInt64.write(value.snapshot_ttl_seconds, buf)
 
-class _UniffiFfiConverterBoolean:
+class _UniffiFfiConverterSequenceTypeMdkProposalType(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
-        return not not value
-
-    @classmethod
-    def lower(cls, value):
-        return 1 if value else 0
-
-    @staticmethod
-    def lift(value):
-        return value != 0
-
-    @classmethod
-    def read(cls, buf):
-        return cls.lift(buf.read_u8())
+        for item in value:
+            _UniffiFfiConverterTypeMdkProposalType.check_lower(item)
 
     @classmethod
     def write(cls, value, buf):
-        buf.write_u8(value)
+        items = len(value)
+        buf.write_i32(items)
+        for item in value:
+            _UniffiFfiConverterTypeMdkProposalType.write(item, buf)
+
+    @classmethod
+    def read(cls, buf):
+        count = buf.read_i32()
+        if count < 0:
+            raise InternalError("Unexpected negative sequence length")
+
+        return [
+            _UniffiFfiConverterTypeMdkProposalType.read(buf) for i in range(count)
+        ]
+
+class _UniffiFfiConverterUInt16(_UniffiConverterPrimitiveInt):
+    CLASS_NAME = "u16"
+    VALUE_MIN = 0
+    VALUE_MAX = 2**16
+
+    @staticmethod
+    def read(buf):
+        return buf.read_u16()
+
+    @staticmethod
+    def write(value, buf):
+        buf.write_u16(value)
+
+class _UniffiFfiConverterSequenceUInt16(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        for item in value:
+            _UniffiFfiConverterUInt16.check_lower(item)
+
+    @classmethod
+    def write(cls, value, buf):
+        items = len(value)
+        buf.write_i32(items)
+        for item in value:
+            _UniffiFfiConverterUInt16.write(item, buf)
+
+    @classmethod
+    def read(cls, buf):
+        count = buf.read_i32()
+        if count < 0:
+            raise InternalError("Unexpected negative sequence length")
+
+        return [
+            _UniffiFfiConverterUInt16.read(buf) for i in range(count)
+        ]
+
+@dataclass
+class MdkMemberCapabilities:
+    """
+    Public MLS capabilities advertised by one group member's current leaf.
+"""
+    def __init__(self, *, member:str, is_admin:bool, proposals:typing.List[MdkProposalType], extensions:typing.List[int], ciphersuites:typing.List[int]):
+        self.member = member
+        self.is_admin = is_admin
+        self.proposals = proposals
+        self.extensions = extensions
+        self.ciphersuites = ciphersuites
+        
+        
+
+    
+    def __str__(self):
+        return "MdkMemberCapabilities(member={}, is_admin={}, proposals={}, extensions={}, ciphersuites={})".format(self.member, self.is_admin, self.proposals, self.extensions, self.ciphersuites)
+    def __eq__(self, other):
+        if self.member != other.member:
+            return False
+        if self.is_admin != other.is_admin:
+            return False
+        if self.proposals != other.proposals:
+            return False
+        if self.extensions != other.extensions:
+            return False
+        if self.ciphersuites != other.ciphersuites:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeMdkMemberCapabilities(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return MdkMemberCapabilities(
+            member=_UniffiFfiConverterString.read(buf),
+            is_admin=_UniffiFfiConverterBoolean.read(buf),
+            proposals=_UniffiFfiConverterSequenceTypeMdkProposalType.read(buf),
+            extensions=_UniffiFfiConverterSequenceUInt16.read(buf),
+            ciphersuites=_UniffiFfiConverterSequenceUInt16.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterString.check_lower(value.member)
+        _UniffiFfiConverterBoolean.check_lower(value.is_admin)
+        _UniffiFfiConverterSequenceTypeMdkProposalType.check_lower(value.proposals)
+        _UniffiFfiConverterSequenceUInt16.check_lower(value.extensions)
+        _UniffiFfiConverterSequenceUInt16.check_lower(value.ciphersuites)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterString.write(value.member, buf)
+        _UniffiFfiConverterBoolean.write(value.is_admin, buf)
+        _UniffiFfiConverterSequenceTypeMdkProposalType.write(value.proposals, buf)
+        _UniffiFfiConverterSequenceUInt16.write(value.extensions, buf)
+        _UniffiFfiConverterSequenceUInt16.write(value.ciphersuites, buf)
 
 class _UniffiFfiConverterOptionalBoolean(_UniffiConverterRustBuffer):
     @classmethod
@@ -2546,19 +3052,6 @@ class _UniffiFfiConverterTypeMediaReferenceRecord(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalSequenceUInt32.write(value.dimensions, buf)
         _UniffiFfiConverterString.write(value.scheme_version, buf)
         _UniffiFfiConverterBytes.write(value.nonce, buf)
-
-class _UniffiFfiConverterUInt16(_UniffiConverterPrimitiveInt):
-    CLASS_NAME = "u16"
-    VALUE_MIN = 0
-    VALUE_MAX = 2**16
-
-    @staticmethod
-    def read(buf):
-        return buf.read_u16()
-
-    @staticmethod
-    def write(value, buf):
-        buf.write_u16(value)
 
 @dataclass
 class Message:
@@ -3413,64 +3906,6 @@ class _UniffiFfiConverterTypeWelcome(_UniffiConverterRustBuffer):
 
 
 
-
-
-
-class MdkProposalType(enum.Enum):
-    """
-    Uniffi-friendly mirror of `openmls::prelude::ProposalType`.
-
-    Exists because uniffi cannot express a foreign-crate enum directly.
-    Kept minimal: mobile consumers today only branch on whether
-    `SelfRemove` is present; anything else collapses to `Unknown`.
-    If that changes — e.g. a future MIP makes another proposal type
-    observable to UIs — add a variant here and a matching arm in the
-    `From` impl below.
-"""
-    
-    SELF_REMOVE = 0
-    """
-    Member-initiated voluntary departure (MLS Extensions draft,
-    `0x000a`). When a group's required-capabilities set contains
-    `SelfRemove`, non-admin members can leave without an admin commit.
-"""
-    
-    UNKNOWN = 1
-    """
-    Any proposal type the mobile API does not distinguish today.
-"""
-    
-
-
-class _UniffiFfiConverterTypeMdkProposalType(_UniffiConverterRustBuffer):
-    @staticmethod
-    def read(buf):
-        variant = buf.read_i32()
-        if variant == 1:
-            return MdkProposalType.SELF_REMOVE
-        if variant == 2:
-            return MdkProposalType.UNKNOWN
-        raise InternalError("Raw enum value doesn't match any cases")
-
-    @staticmethod
-    def check_lower(value):
-        if value == MdkProposalType.SELF_REMOVE:
-            return
-        if value == MdkProposalType.UNKNOWN:
-            return
-        raise ValueError(value)
-
-    @staticmethod
-    def write(value, buf):
-        if value == MdkProposalType.SELF_REMOVE:
-            buf.write_i32(1)
-        if value == MdkProposalType.UNKNOWN:
-            buf.write_i32(2)
-
-
-
-
-
 # MdkUniffiError
 # We want to define each variant as a nested class that's also a subclass,
 # which is tricky in Python.  To accomplish this we're going to create each
@@ -3786,18 +4221,18 @@ class _UniffiFfiConverterSequenceTypeLeafMapEntry(_UniffiConverterRustBuffer):
             _UniffiFfiConverterTypeLeafMapEntry.read(buf) for i in range(count)
         ]
 
-class _UniffiFfiConverterSequenceTypeMdkProposalType(_UniffiConverterRustBuffer):
+class _UniffiFfiConverterSequenceTypeMdkMemberCapabilities(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
         for item in value:
-            _UniffiFfiConverterTypeMdkProposalType.check_lower(item)
+            _UniffiFfiConverterTypeMdkMemberCapabilities.check_lower(item)
 
     @classmethod
     def write(cls, value, buf):
         items = len(value)
         buf.write_i32(items)
         for item in value:
-            _UniffiFfiConverterTypeMdkProposalType.write(item, buf)
+            _UniffiFfiConverterTypeMdkMemberCapabilities.write(item, buf)
 
     @classmethod
     def read(cls, buf):
@@ -3806,7 +4241,7 @@ class _UniffiFfiConverterSequenceTypeMdkProposalType(_UniffiConverterRustBuffer)
             raise InternalError("Unexpected negative sequence length")
 
         return [
-            _UniffiFfiConverterTypeMdkProposalType.read(buf) for i in range(count)
+            _UniffiFfiConverterTypeMdkMemberCapabilities.read(buf) for i in range(count)
         ]
 
 
@@ -3859,7 +4294,7 @@ class MdkProtocol(typing.Protocol):
         If you need the protected tag, use `create_key_package_for_event_with_options` instead.
 """
         raise NotImplementedError
-    def create_key_package_for_event_with_options(self, public_key: str,relays: typing.List[str],protected: bool) -> KeyPackageResult:
+    def create_key_package_for_event_with_options(self, public_key: str,relays: typing.List[str],options: KeyPackageOptions) -> KeyPackageResult:
         """
         Create a key package for a Nostr event with additional options
 
@@ -3867,10 +4302,8 @@ class MdkProtocol(typing.Protocol):
 
         * `public_key` - The Nostr public key (hex) for the credential
         * `relays` - Relay URLs where the key package will be published
-        * `protected` - Whether to add the NIP-70 protected tag. When `true`, relays that
-        implement NIP-70 will reject republishing by third parties. However, many popular
-        relays reject protected events entirely. Set to `false` for maximum relay
-        compatibility.
+        * `options` - Event-construction options ([`KeyPackageOptions`]). Use the default
+        value for "no protected tag, freshly generated `d` tag" behavior.
 """
         raise NotImplementedError
     def create_media_imeta_tag(self, mls_group_id: str,upload: EncryptedMediaUploadResult,uploaded_url: str) -> typing.List[typing.List[str]]:
@@ -4099,12 +4532,35 @@ class MdkProtocol(typing.Protocol):
         Get a welcome by event ID
 """
         raise NotImplementedError
+    def group_capability_upgrade_status(self, group_id_hex: str) -> MdkCapabilityUpgradeStatus:
+        """
+        Returns per-proposal capability upgrade readiness for a group.
+
+        Any member may call this. Each entry reports whether the mirrored proposal type is already
+        required, currently available for upgrade, or blocked by one or more members.
+
+        # Arguments
+
+        * `group_id_hex` - Hex-encoded MLS group ID
+"""
+        raise NotImplementedError
     def group_leaf_map(self, group_id_hex: str) -> typing.List[LeafMapEntry]:
         """
         Returns the current active MLS leaf positions and their bound Nostr public keys
 
         Returns a list of (leaf_index, public_key_hex) pairs. Removed-member tree
         holes are omitted.
+
+        # Arguments
+
+        * `group_id_hex` - Hex-encoded MLS group ID
+"""
+        raise NotImplementedError
+    def group_member_capabilities(self, group_id_hex: str) -> typing.List[MdkMemberCapabilities]:
+        """
+        Returns per-member advertised MLS capabilities for every active group leaf.
+
+        Any member may call this. The returned vector is ordered by MLS leaf index.
 
         # Arguments
 
@@ -4258,6 +4714,19 @@ class MdkProtocol(typing.Protocol):
     def update_group_data(self, mls_group_id: str,update: GroupDataUpdate) -> UpdateGroupResult:
         """
         Update group data (name, description, image, relays, admins)
+"""
+        raise NotImplementedError
+    def upgrade_group_capabilities(self, group_id_hex: str,proposals_to_add: typing.List[MdkProposalType]) -> UpdateGroupResult:
+        """
+        Proposes a group capability upgrade by adding proposal types to `RequiredCapabilities`.
+
+        Admin-only. Pass the proposal types reported as `Available` by
+        [`Mdk::group_capability_upgrade_status`].
+
+        # Arguments
+
+        * `group_id_hex` - Hex-encoded MLS group ID
+        * `proposals_to_add` - Proposal types to add to the group's required capabilities
 """
         raise NotImplementedError
 
@@ -4431,7 +4900,7 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
-    def create_key_package_for_event_with_options(self, public_key: str,relays: typing.List[str],protected: bool) -> KeyPackageResult:
+    def create_key_package_for_event_with_options(self, public_key: str,relays: typing.List[str],options: KeyPackageOptions) -> KeyPackageResult:
         """
         Create a key package for a Nostr event with additional options
 
@@ -4439,22 +4908,20 @@ class Mdk(MdkProtocol):
 
         * `public_key` - The Nostr public key (hex) for the credential
         * `relays` - Relay URLs where the key package will be published
-        * `protected` - Whether to add the NIP-70 protected tag. When `true`, relays that
-        implement NIP-70 will reject republishing by third parties. However, many popular
-        relays reject protected events entirely. Set to `false` for maximum relay
-        compatibility.
+        * `options` - Event-construction options ([`KeyPackageOptions`]). Use the default
+        value for "no protected tag, freshly generated `d` tag" behavior.
 """
         
         _UniffiFfiConverterString.check_lower(public_key)
 
         _UniffiFfiConverterSequenceString.check_lower(relays)
 
-        _UniffiFfiConverterBoolean.check_lower(protected)
+        _UniffiFfiConverterTypeKeyPackageOptions.check_lower(options)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
             _UniffiFfiConverterString.lower(public_key),
             _UniffiFfiConverterSequenceString.lower(relays),
-            _UniffiFfiConverterBoolean.lower(protected),
+            _UniffiFfiConverterTypeKeyPackageOptions.lower(options),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeKeyPackageResult.lift
         _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
@@ -5026,6 +5493,31 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def group_capability_upgrade_status(self, group_id_hex: str) -> MdkCapabilityUpgradeStatus:
+        """
+        Returns per-proposal capability upgrade readiness for a group.
+
+        Any member may call this. Each entry reports whether the mirrored proposal type is already
+        required, currently available for upgrade, or blocked by one or more members.
+
+        # Arguments
+
+        * `group_id_hex` - Hex-encoded MLS group ID
+"""
+        
+        _UniffiFfiConverterString.check_lower(group_id_hex)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(group_id_hex),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterTypeMdkCapabilityUpgradeStatus.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_capability_upgrade_status,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
     def group_leaf_map(self, group_id_hex: str) -> typing.List[LeafMapEntry]:
         """
         Returns the current active MLS leaf positions and their bound Nostr public keys
@@ -5048,6 +5540,30 @@ class Mdk(MdkProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_leaf_map,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def group_member_capabilities(self, group_id_hex: str) -> typing.List[MdkMemberCapabilities]:
+        """
+        Returns per-member advertised MLS capabilities for every active group leaf.
+
+        Any member may call this. The returned vector is ordered by MLS leaf index.
+
+        # Arguments
+
+        * `group_id_hex` - Hex-encoded MLS group ID
+"""
+        
+        _UniffiFfiConverterString.check_lower(group_id_hex)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(group_id_hex),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterSequenceTypeMdkMemberCapabilities.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_group_member_capabilities,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
@@ -5446,6 +5962,35 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def upgrade_group_capabilities(self, group_id_hex: str,proposals_to_add: typing.List[MdkProposalType]) -> UpdateGroupResult:
+        """
+        Proposes a group capability upgrade by adding proposal types to `RequiredCapabilities`.
+
+        Admin-only. Pass the proposal types reported as `Available` by
+        [`Mdk::group_capability_upgrade_status`].
+
+        # Arguments
+
+        * `group_id_hex` - Hex-encoded MLS group ID
+        * `proposals_to_add` - Proposal types to add to the group's required capabilities
+"""
+        
+        _UniffiFfiConverterString.check_lower(group_id_hex)
+
+        _UniffiFfiConverterSequenceTypeMdkProposalType.check_lower(proposals_to_add)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(group_id_hex),
+            _UniffiFfiConverterSequenceTypeMdkProposalType.lower(proposals_to_add),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterTypeUpdateGroupResult.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_upgrade_group_capabilities,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
 
 
 
@@ -5715,8 +6260,9 @@ def prepare_group_image_for_upload_with_options(image_data: bytes,mime_type: str
 
 __all__ = [
     "InternalError",
-    "ProcessMessageResult",
     "MdkProposalType",
+    "MdkProposalUpgradability",
+    "ProcessMessageResult",
     "MdkUniffiError",
     "Group",
     "CreateGroupResult",
@@ -5724,9 +6270,13 @@ __all__ = [
     "GroupDataUpdate",
     "ImageDimensions",
     "GroupImageUpload",
+    "KeyPackageOptions",
     "KeyPackageResult",
     "LeafMapEntry",
+    "MdkProposalUpgradeStatus",
+    "MdkCapabilityUpgradeStatus",
     "MdkConfig",
+    "MdkMemberCapabilities",
     "MediaProcessingOptionsInput",
     "MediaReferenceRecord",
     "Message",
