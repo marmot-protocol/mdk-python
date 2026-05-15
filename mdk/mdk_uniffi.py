@@ -1811,7 +1811,7 @@ class EncryptedMediaUploadResult:
     Contains the encrypted bytes ready for upload to a Blossom server, along
     with the metadata required to build the IMETA tag and later decrypt the file.
 """
-    def __init__(self, *, encrypted_data:bytes, original_hash:bytes, encrypted_hash:bytes, mime_type:str, filename:str, original_size:int, encrypted_size:int, dimensions:typing.Optional[typing.List[int]], blurhash:typing.Optional[str], thumbhash:typing.Optional[str], nonce:bytes):
+    def __init__(self, *, encrypted_data:bytes, original_hash:bytes, encrypted_hash:bytes, mime_type:str, filename:str, original_size:int, encrypted_size:int, dimensions:typing.Optional[typing.List[int]], blurhash:typing.Optional[str], thumbhash:typing.Optional[str], duration_ms:typing.Optional[int], waveform:typing.Optional[bytes], nonce:bytes):
         self.encrypted_data = encrypted_data
         self.original_hash = original_hash
         self.encrypted_hash = encrypted_hash
@@ -1822,13 +1822,15 @@ class EncryptedMediaUploadResult:
         self.dimensions = dimensions
         self.blurhash = blurhash
         self.thumbhash = thumbhash
+        self.duration_ms = duration_ms
+        self.waveform = waveform
         self.nonce = nonce
         
         
 
     
     def __str__(self):
-        return "EncryptedMediaUploadResult(encrypted_data={}, original_hash={}, encrypted_hash={}, mime_type={}, filename={}, original_size={}, encrypted_size={}, dimensions={}, blurhash={}, thumbhash={}, nonce={})".format(self.encrypted_data, self.original_hash, self.encrypted_hash, self.mime_type, self.filename, self.original_size, self.encrypted_size, self.dimensions, self.blurhash, self.thumbhash, self.nonce)
+        return "EncryptedMediaUploadResult(encrypted_data={}, original_hash={}, encrypted_hash={}, mime_type={}, filename={}, original_size={}, encrypted_size={}, dimensions={}, blurhash={}, thumbhash={}, duration_ms={}, waveform={}, nonce={})".format(self.encrypted_data, self.original_hash, self.encrypted_hash, self.mime_type, self.filename, self.original_size, self.encrypted_size, self.dimensions, self.blurhash, self.thumbhash, self.duration_ms, self.waveform, self.nonce)
     def __eq__(self, other):
         if self.encrypted_data != other.encrypted_data:
             return False
@@ -1850,6 +1852,10 @@ class EncryptedMediaUploadResult:
             return False
         if self.thumbhash != other.thumbhash:
             return False
+        if self.duration_ms != other.duration_ms:
+            return False
+        if self.waveform != other.waveform:
+            return False
         if self.nonce != other.nonce:
             return False
         return True
@@ -1868,6 +1874,8 @@ class _UniffiFfiConverterTypeEncryptedMediaUploadResult(_UniffiConverterRustBuff
             dimensions=_UniffiFfiConverterOptionalSequenceUInt32.read(buf),
             blurhash=_UniffiFfiConverterOptionalString.read(buf),
             thumbhash=_UniffiFfiConverterOptionalString.read(buf),
+            duration_ms=_UniffiFfiConverterOptionalUInt64.read(buf),
+            waveform=_UniffiFfiConverterOptionalBytes.read(buf),
             nonce=_UniffiFfiConverterBytes.read(buf),
         )
 
@@ -1883,6 +1891,8 @@ class _UniffiFfiConverterTypeEncryptedMediaUploadResult(_UniffiConverterRustBuff
         _UniffiFfiConverterOptionalSequenceUInt32.check_lower(value.dimensions)
         _UniffiFfiConverterOptionalString.check_lower(value.blurhash)
         _UniffiFfiConverterOptionalString.check_lower(value.thumbhash)
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.duration_ms)
+        _UniffiFfiConverterOptionalBytes.check_lower(value.waveform)
         _UniffiFfiConverterBytes.check_lower(value.nonce)
 
     @staticmethod
@@ -1897,6 +1907,8 @@ class _UniffiFfiConverterTypeEncryptedMediaUploadResult(_UniffiConverterRustBuff
         _UniffiFfiConverterOptionalSequenceUInt32.write(value.dimensions, buf)
         _UniffiFfiConverterOptionalString.write(value.blurhash, buf)
         _UniffiFfiConverterOptionalString.write(value.thumbhash, buf)
+        _UniffiFfiConverterOptionalUInt64.write(value.duration_ms, buf)
+        _UniffiFfiConverterOptionalBytes.write(value.waveform, buf)
         _UniffiFfiConverterBytes.write(value.nonce, buf)
 
 class _UniffiFfiConverterOptionalOptionalBytes(_UniffiConverterRustBuffer):
@@ -2989,12 +3001,14 @@ class MediaReferenceRecord:
     This is parsed from an IMETA tag (via `parse_media_imeta_tag`) and passed
     to `decrypt_media_from_download` to retrieve the original file.
 """
-    def __init__(self, *, url:str, original_hash:bytes, mime_type:str, filename:str, dimensions:typing.Optional[typing.List[int]], scheme_version:str, nonce:bytes):
+    def __init__(self, *, url:str, original_hash:bytes, mime_type:str, filename:str, dimensions:typing.Optional[typing.List[int]], duration_ms:typing.Optional[int], waveform:typing.Optional[bytes], scheme_version:str, nonce:bytes):
         self.url = url
         self.original_hash = original_hash
         self.mime_type = mime_type
         self.filename = filename
         self.dimensions = dimensions
+        self.duration_ms = duration_ms
+        self.waveform = waveform
         self.scheme_version = scheme_version
         self.nonce = nonce
         
@@ -3002,7 +3016,7 @@ class MediaReferenceRecord:
 
     
     def __str__(self):
-        return "MediaReferenceRecord(url={}, original_hash={}, mime_type={}, filename={}, dimensions={}, scheme_version={}, nonce={})".format(self.url, self.original_hash, self.mime_type, self.filename, self.dimensions, self.scheme_version, self.nonce)
+        return "MediaReferenceRecord(url={}, original_hash={}, mime_type={}, filename={}, dimensions={}, duration_ms={}, waveform={}, scheme_version={}, nonce={})".format(self.url, self.original_hash, self.mime_type, self.filename, self.dimensions, self.duration_ms, self.waveform, self.scheme_version, self.nonce)
     def __eq__(self, other):
         if self.url != other.url:
             return False
@@ -3013,6 +3027,10 @@ class MediaReferenceRecord:
         if self.filename != other.filename:
             return False
         if self.dimensions != other.dimensions:
+            return False
+        if self.duration_ms != other.duration_ms:
+            return False
+        if self.waveform != other.waveform:
             return False
         if self.scheme_version != other.scheme_version:
             return False
@@ -3029,6 +3047,8 @@ class _UniffiFfiConverterTypeMediaReferenceRecord(_UniffiConverterRustBuffer):
             mime_type=_UniffiFfiConverterString.read(buf),
             filename=_UniffiFfiConverterString.read(buf),
             dimensions=_UniffiFfiConverterOptionalSequenceUInt32.read(buf),
+            duration_ms=_UniffiFfiConverterOptionalUInt64.read(buf),
+            waveform=_UniffiFfiConverterOptionalBytes.read(buf),
             scheme_version=_UniffiFfiConverterString.read(buf),
             nonce=_UniffiFfiConverterBytes.read(buf),
         )
@@ -3040,6 +3060,8 @@ class _UniffiFfiConverterTypeMediaReferenceRecord(_UniffiConverterRustBuffer):
         _UniffiFfiConverterString.check_lower(value.mime_type)
         _UniffiFfiConverterString.check_lower(value.filename)
         _UniffiFfiConverterOptionalSequenceUInt32.check_lower(value.dimensions)
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.duration_ms)
+        _UniffiFfiConverterOptionalBytes.check_lower(value.waveform)
         _UniffiFfiConverterString.check_lower(value.scheme_version)
         _UniffiFfiConverterBytes.check_lower(value.nonce)
 
@@ -3050,6 +3072,8 @@ class _UniffiFfiConverterTypeMediaReferenceRecord(_UniffiConverterRustBuffer):
         _UniffiFfiConverterString.write(value.mime_type, buf)
         _UniffiFfiConverterString.write(value.filename, buf)
         _UniffiFfiConverterOptionalSequenceUInt32.write(value.dimensions, buf)
+        _UniffiFfiConverterOptionalUInt64.write(value.duration_ms, buf)
+        _UniffiFfiConverterOptionalBytes.write(value.waveform, buf)
         _UniffiFfiConverterString.write(value.scheme_version, buf)
         _UniffiFfiConverterBytes.write(value.nonce, buf)
 
