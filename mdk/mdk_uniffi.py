@@ -500,7 +500,7 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_clear_pending_commit() != 50626:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_group() != 56895:
+    if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_group() != 47513:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mdk_uniffi_checksum_method_mdk_create_key_package_for_event() != 46847:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -938,6 +938,7 @@ _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_clear_pending_commit.argtypes = (
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_clear_pending_commit.restype = None
 _UniffiLib.uniffi_mdk_uniffi_fn_method_mdk_create_group.argtypes = (
     ctypes.c_uint64,
+    _UniffiRustBuffer,
     _UniffiRustBuffer,
     _UniffiRustBuffer,
     _UniffiRustBuffer,
@@ -1597,7 +1598,7 @@ class Group:
     """
     Group representation
 """
-    def __init__(self, *, mls_group_id:str, nostr_group_id:str, name:str, description:str, image_hash:typing.Optional[bytes], image_key:typing.Optional[bytes], image_nonce:typing.Optional[bytes], admin_pubkeys:typing.List[str], last_message_id:typing.Optional[str], last_message_at:typing.Optional[int], last_message_processed_at:typing.Optional[int], epoch:int, state:str, self_update_state:str):
+    def __init__(self, *, mls_group_id:str, nostr_group_id:str, name:str, description:str, image_hash:typing.Optional[bytes], image_key:typing.Optional[bytes], image_nonce:typing.Optional[bytes], admin_pubkeys:typing.List[str], last_message_id:typing.Optional[str], last_message_at:typing.Optional[int], last_message_processed_at:typing.Optional[int], epoch:int, state:str, self_update_state:str, disappearing_message_secs:typing.Optional[int]):
         self.mls_group_id = mls_group_id
         self.nostr_group_id = nostr_group_id
         self.name = name
@@ -1612,12 +1613,13 @@ class Group:
         self.epoch = epoch
         self.state = state
         self.self_update_state = self_update_state
+        self.disappearing_message_secs = disappearing_message_secs
         
         
 
     
     def __str__(self):
-        return "Group(mls_group_id={}, nostr_group_id={}, name={}, description={}, image_hash={}, image_key={}, image_nonce={}, admin_pubkeys={}, last_message_id={}, last_message_at={}, last_message_processed_at={}, epoch={}, state={}, self_update_state={})".format(self.mls_group_id, self.nostr_group_id, self.name, self.description, self.image_hash, self.image_key, self.image_nonce, self.admin_pubkeys, self.last_message_id, self.last_message_at, self.last_message_processed_at, self.epoch, self.state, self.self_update_state)
+        return "Group(mls_group_id={}, nostr_group_id={}, name={}, description={}, image_hash={}, image_key={}, image_nonce={}, admin_pubkeys={}, last_message_id={}, last_message_at={}, last_message_processed_at={}, epoch={}, state={}, self_update_state={}, disappearing_message_secs={})".format(self.mls_group_id, self.nostr_group_id, self.name, self.description, self.image_hash, self.image_key, self.image_nonce, self.admin_pubkeys, self.last_message_id, self.last_message_at, self.last_message_processed_at, self.epoch, self.state, self.self_update_state, self.disappearing_message_secs)
     def __eq__(self, other):
         if self.mls_group_id != other.mls_group_id:
             return False
@@ -1647,6 +1649,8 @@ class Group:
             return False
         if self.self_update_state != other.self_update_state:
             return False
+        if self.disappearing_message_secs != other.disappearing_message_secs:
+            return False
         return True
 
 class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
@@ -1667,6 +1671,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
             epoch=_UniffiFfiConverterUInt64.read(buf),
             state=_UniffiFfiConverterString.read(buf),
             self_update_state=_UniffiFfiConverterString.read(buf),
+            disappearing_message_secs=_UniffiFfiConverterOptionalUInt64.read(buf),
         )
 
     @staticmethod
@@ -1685,6 +1690,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
         _UniffiFfiConverterUInt64.check_lower(value.epoch)
         _UniffiFfiConverterString.check_lower(value.state)
         _UniffiFfiConverterString.check_lower(value.self_update_state)
+        _UniffiFfiConverterOptionalUInt64.check_lower(value.disappearing_message_secs)
 
     @staticmethod
     def write(value, buf):
@@ -1702,6 +1708,7 @@ class _UniffiFfiConverterTypeGroup(_UniffiConverterRustBuffer):
         _UniffiFfiConverterUInt64.write(value.epoch, buf)
         _UniffiFfiConverterString.write(value.state, buf)
         _UniffiFfiConverterString.write(value.self_update_state, buf)
+        _UniffiFfiConverterOptionalUInt64.write(value.disappearing_message_secs, buf)
 
 @dataclass
 class CreateGroupResult:
@@ -1961,12 +1968,37 @@ class _UniffiFfiConverterOptionalSequenceString(_UniffiConverterRustBuffer):
         else:
             raise InternalError("Unexpected flag byte for optional type")
 
+class _UniffiFfiConverterOptionalOptionalUInt64(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterOptionalUInt64.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterOptionalUInt64.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterOptionalUInt64.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
 @dataclass
 class GroupDataUpdate:
     """
     Configuration for updating group data with optional fields
 """
-    def __init__(self, *, name:typing.Optional[str], description:typing.Optional[str], image_hash:typing.Optional[typing.Optional[bytes]], image_key:typing.Optional[typing.Optional[bytes]], image_nonce:typing.Optional[typing.Optional[bytes]], relays:typing.Optional[typing.List[str]], admins:typing.Optional[typing.List[str]]):
+    def __init__(self, *, name:typing.Optional[str], description:typing.Optional[str], image_hash:typing.Optional[typing.Optional[bytes]], image_key:typing.Optional[typing.Optional[bytes]], image_nonce:typing.Optional[typing.Optional[bytes]], relays:typing.Optional[typing.List[str]], admins:typing.Optional[typing.List[str]], disappearing_message_secs:typing.Optional[typing.Optional[int]]):
         self.name = name
         self.description = description
         self.image_hash = image_hash
@@ -1974,12 +2006,13 @@ class GroupDataUpdate:
         self.image_nonce = image_nonce
         self.relays = relays
         self.admins = admins
+        self.disappearing_message_secs = disappearing_message_secs
         
         
 
     
     def __str__(self):
-        return "GroupDataUpdate(name={}, description={}, image_hash={}, image_key={}, image_nonce={}, relays={}, admins={})".format(self.name, self.description, self.image_hash, self.image_key, self.image_nonce, self.relays, self.admins)
+        return "GroupDataUpdate(name={}, description={}, image_hash={}, image_key={}, image_nonce={}, relays={}, admins={}, disappearing_message_secs={})".format(self.name, self.description, self.image_hash, self.image_key, self.image_nonce, self.relays, self.admins, self.disappearing_message_secs)
     def __eq__(self, other):
         if self.name != other.name:
             return False
@@ -1995,6 +2028,8 @@ class GroupDataUpdate:
             return False
         if self.admins != other.admins:
             return False
+        if self.disappearing_message_secs != other.disappearing_message_secs:
+            return False
         return True
 
 class _UniffiFfiConverterTypeGroupDataUpdate(_UniffiConverterRustBuffer):
@@ -2008,6 +2043,7 @@ class _UniffiFfiConverterTypeGroupDataUpdate(_UniffiConverterRustBuffer):
             image_nonce=_UniffiFfiConverterOptionalOptionalBytes.read(buf),
             relays=_UniffiFfiConverterOptionalSequenceString.read(buf),
             admins=_UniffiFfiConverterOptionalSequenceString.read(buf),
+            disappearing_message_secs=_UniffiFfiConverterOptionalOptionalUInt64.read(buf),
         )
 
     @staticmethod
@@ -2019,6 +2055,7 @@ class _UniffiFfiConverterTypeGroupDataUpdate(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalOptionalBytes.check_lower(value.image_nonce)
         _UniffiFfiConverterOptionalSequenceString.check_lower(value.relays)
         _UniffiFfiConverterOptionalSequenceString.check_lower(value.admins)
+        _UniffiFfiConverterOptionalOptionalUInt64.check_lower(value.disappearing_message_secs)
 
     @staticmethod
     def write(value, buf):
@@ -2029,6 +2066,7 @@ class _UniffiFfiConverterTypeGroupDataUpdate(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalOptionalBytes.write(value.image_nonce, buf)
         _UniffiFfiConverterOptionalSequenceString.write(value.relays, buf)
         _UniffiFfiConverterOptionalSequenceString.write(value.admins, buf)
+        _UniffiFfiConverterOptionalOptionalUInt64.write(value.disappearing_message_secs, buf)
 
 @dataclass
 class ImageDimensions:
@@ -4304,7 +4342,7 @@ class MdkProtocol(typing.Protocol):
         * `Err` - if the group doesn't exist or another error occurs
 """
         raise NotImplementedError
-    def create_group(self, creator_public_key: str,member_key_package_events_json: typing.List[str],name: str,description: str,relays: typing.List[str],admins: typing.List[str]) -> CreateGroupResult:
+    def create_group(self, creator_public_key: str,member_key_package_events_json: typing.List[str],name: str,description: str,relays: typing.List[str],admins: typing.List[str],disappearing_message_secs: typing.Optional[int]) -> CreateGroupResult:
         """
         Create a new group
 """
@@ -4866,7 +4904,7 @@ class Mdk(MdkProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
-    def create_group(self, creator_public_key: str,member_key_package_events_json: typing.List[str],name: str,description: str,relays: typing.List[str],admins: typing.List[str]) -> CreateGroupResult:
+    def create_group(self, creator_public_key: str,member_key_package_events_json: typing.List[str],name: str,description: str,relays: typing.List[str],admins: typing.List[str],disappearing_message_secs: typing.Optional[int]) -> CreateGroupResult:
         """
         Create a new group
 """
@@ -4882,6 +4920,8 @@ class Mdk(MdkProtocol):
         _UniffiFfiConverterSequenceString.check_lower(relays)
 
         _UniffiFfiConverterSequenceString.check_lower(admins)
+
+        _UniffiFfiConverterOptionalUInt64.check_lower(disappearing_message_secs)
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
             _UniffiFfiConverterString.lower(creator_public_key),
@@ -4890,6 +4930,7 @@ class Mdk(MdkProtocol):
             _UniffiFfiConverterString.lower(description),
             _UniffiFfiConverterSequenceString.lower(relays),
             _UniffiFfiConverterSequenceString.lower(admins),
+            _UniffiFfiConverterOptionalUInt64.lower(disappearing_message_secs),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeCreateGroupResult.lift
         _uniffi_error_converter = _UniffiFfiConverterTypeMdkUniffiError
