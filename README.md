@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repository is obsolete and is no longer updated.
+
 > [!NOTE]
 > This is a generic documentation, [read Python-specific docs](docs.md).
 
